@@ -9,13 +9,14 @@
     <PackageProjectUrl>https://acernuda.com</PackageProjectUrl>
     <PackageReleaseNotes>Addding  components Tabs and CustomizedTabs
 improved Toast</PackageReleaseNotes>
-	  <PackageVersion>1.0.5</PackageVersion>
-    <AssemblyVersion>1.0.5</AssemblyVersion>
+	  <PackageVersion>1.0.6</PackageVersion>
+    <AssemblyVersion>1.0.6</AssemblyVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <FileVersion>1.0.5</FileVersion>
+    <FileVersion>1.0.6</FileVersion>
     <Authors>Alejandro Cernuda</Authors>
     <Company>acernuda.com</Company>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/alexarriete/BlazorCommon</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
