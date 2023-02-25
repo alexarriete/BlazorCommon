@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.Forms;
+@inherits ModalGridSearchBase
+
+<BlazorCommon.Modal.ModalTemplate @ref="ModalTemplate" Title="@BlazorDic.ColumnFilter" HeaderClass="theme">
+
+    @if (GridSearch != null)
+    {
+        <EditForm Model="GridSearch">
+            <div class="container" style="margin-top:5%; margin-bottom:5%">
+                @if (GridSearch.SearchPropType == PropertyType.text)
+                {
+                    <div class="row">
+                        <BlazorCommon.SearchBox.TextSearch Placeholder="@BlazorDic.TextInsert" DivClass="col-12"  TextChanged="SetTextFilter"/>
+                    </div>                   
+                }
+                else if (GridSearch.SearchPropType == PropertyType.number)
+                {
+                    @if (GridSearch.NumberSearchTypeSelected != NumberSelectionType.Between)
+                    {
+                        <BlazorCommon.SearchBox.TextSearch Placeholder="@BlazorDic.NumberInsert" DivClass="col-12" TextChanged="SetTextFilter" InputType="number" />
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <BlazorCommon.SearchBox.TextSearch Placeholder="@BlazorDic.Greaterthan" DivClass="col-6" @bind-Text="@GridSearch.SearchText" InputType="number" />
+                            <BlazorCommon.SearchBox.TextSearch Placeholder="@BlazorDic.Lessthan" DivClass="col-6" @bind-Text="@GridSearch.SearchText2" InputType="number" />                            
+                        </div>
+                    }
+                    <form class="form-inline text-center">
+                        @foreach (var item in Enum.GetValues(typeof(NumberSelectionType)))
+                        {
+                            <input type="radio" name="NumberSearchType" value="@item.ToString()" @onchange="NumberSelectionChanged"
+                       checked=@(GridSearch.NumberSearchTypeSelected == (NumberSelectionType)item) />
+                            <label><strong>@(BlazorDic.ResourceManager.GetString(item.ToString()))&nbsp;&nbsp;&nbsp;</strong></label>
+                        }
+                    </form>
+                }
+                else if (GridSearch.SearchPropType == PropertyType.datetime)
+                {
+                    <div class="row" style="margin-top:10px">
+                        <div class="col-md-6"><InputDate @bind-Value="@GridSearch.SearchDateFrom" class="form-control" /></div>
+                        <div class="col-md-6"><InputDate @bind-Value="@GridSearch.SearchDateTo" class="form-control" /></div>
+                    </div>
+                }else if (GridSearch.SearchPropType == PropertyType.imageRag)
+                {
+                    <BlazorCommon.SearchBox.RagSearch ApplyFilters="SetRagFilter"/>
+                }
+
+                <div class="row " style="margin-top:20px">
+                    <div class="col-6">
+                        <button @onclick="Accept" type="submit" class="btn theme form-control">OK</button>
+                    </div>
+                    <div class="col-6">
+                        <button @onclick="Close" type="button" class="btn theme form-control" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    }
+</BlazorCommon.Modal.ModalTemplate>
+

@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Title>BlazorCommon</Title>
+    <Description>RCL with Blazor components</Description>
+    <PackageProjectUrl>https://acernuda.com</PackageProjectUrl>
+    <PackageReleaseNotes>Addding  components Tabs and CustomizedTabs
+improved Toast</PackageReleaseNotes>
+	  <PackageVersion>1.0.5</PackageVersion>
+    <AssemblyVersion>1.0.5</AssemblyVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <FileVersion>1.0.5</FileVersion>
+    <Authors>Alejandro Cernuda</Authors>
+    <Company>acernuda.com</Company>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;CS8625</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;CS8625</NoWarn>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.100.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="BlazorDic.Designer.cs">
+      <DependentUpon>BlazorDic.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\BlazorCommon.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="BlazorDic.resx">
+      <LastGenOutput>BlazorDic.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="BlazorDic.es.resx">
+      <LastGenOutput>BlazorDic.es.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

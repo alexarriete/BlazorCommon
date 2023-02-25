@@ -1,0 +1,29 @@
+﻿@inherits NumberListSearchBase
+
+@if (Elements != null && Elements.Any())
+{
+    <div class="@DivClass">
+
+        @if (!string.IsNullOrWhiteSpace(Label))
+        {
+            <label class="control-label">@Label</label>
+        }
+        <div class="input-group">
+
+            <select @bind="ElementId" class="form-select" id="monthSelectedId">
+                @foreach (int element in Elements)
+                {
+                    if (ElementId == element)
+                    {
+                        <option value="@element" selected> @element</option>
+                    }
+                    else
+                    {
+                        <option value="@element"> @element</option>
+                    }
+
+                }
+            </select>
+        </div>
+    </div>
+}

@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.Forms;
+@inherits RagSearchBase
+
+
+<div class="@DivClass">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label class="control-label">@Label</label>
+    }
+    <div class="row">
+        <EditForm Model="RagCode">
+            <InputRadioGroup Name="RagFilter" @bind-Value="RagCode">
+                <InputRadio Name="RagFilter" Value="(int)RagColor.Green" id="green" @attributes="Attributes" />
+                <label class="btn input-circle circle-green @IsSelected((int)RagColor.Green)" for="green"></label>
+
+                <InputRadio Name="RagFilter" Value="(int)RagColor.Amber" id="amber" @attributes="Attributes" />
+                <label class="btn input-circle circle-amber @IsSelected((int)RagColor.Amber)" for="amber"></label>
+
+                <InputRadio Name="RagFilter" Value="(int)RagColor.Red" id="red" @attributes="Attributes" />
+                <label class="btn input-circle circle-red @IsSelected((int)RagColor.Red)" for="red"></label>
+
+            </InputRadioGroup>
+        </EditForm>
+    </div>
+</div>
+<style>
+    .input-circle {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        border: none;
+        margin-left: 5px;
+    }
+
+    .circle-green {
+        background: linear-gradient(to top, #81e021, #d1f3ae);
+    }
+
+    .circle-amber {
+        background: linear-gradient(to top, #f7963b, #fbc899);
+    }
+
+    .circle-red {
+        background: linear-gradient(to top, #ce1414, #e99898);
+    }
+
+    .circle-gray {
+        background: #b2b2b2;
+    }
+
+    .selected-circle {
+        box-shadow: 0px 0px 0px 5px #777;
+    }
+</style>

@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components
+@inherits CustomizedTabBase
+@namespace BlazorCommon
+
+
+<Tabs tabs="tabs" Theme="Theme">
+    <TabContent>
+        <hr />
+        <br />
+        <h3>@((MarkupString)context.Title)</h3>
+        <p><i> @((MarkupString)context.Description)</i></p>
+        @if(context.Title != null || context.Description != null)
+        {
+            <hr />
+        }        
+        @if(context.Type == TabType.Grid)
+        {
+            <BlazorCommon.Grid.Grid GridConfig="@context.GridConfig" />
+        }
+        else if(context.Type == TabType.Text)
+        {
+            @context.Content;
+        }
+        else if(context.Type == TabType.HtmlText)
+        {
+            @((MarkupString)context.Content)
+        }
+        @if(context.Footer != null)
+        {
+            <hr />
+            @((MarkupString)context.Footer)
+        }
+        
+        
+    </TabContent>
+</Tabs>

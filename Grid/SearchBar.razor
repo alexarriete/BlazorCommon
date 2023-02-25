@@ -1,0 +1,27 @@
+﻿@inherits SearchBarBase
+
+@if (GridSearches != null && GridSearches.Any())
+{
+    <div class="row">
+        <div class="col-10">
+    <table class="table">
+        <thead>
+            <tr>
+                @foreach (GridSearch gs in GridSearches)
+                {
+                    <th>
+                        <label style="background-color:@(Theme.HeaderColor); color: @(Theme.HeaderFontColor)">@($"{gs.ColumnName}: {GetLabelString(gs)}")
+                                    <span Title="@BlazorDic.RemoveColumnFilter" @onclick="()=>RemoveFilter(gs)">&#10062;</span>
+                                </label>
+                    </th>
+                }                
+            </tr>
+        </thead>
+    </table>
+        </div>
+        <div class="col-2">
+            <button class="btn" @onclick="Search" style="background-color:@(Theme.HeaderColor); color: @(Theme.HeaderFontColor)">@BlazorDic.Search</button>
+            <button class="btn" @onclick="CleanFilters" style="background-color:@(Theme.HeaderColor); color: @(Theme.HeaderFontColor)">@BlazorDic.CleanFilter</button>
+        </div>
+    </div>
+}

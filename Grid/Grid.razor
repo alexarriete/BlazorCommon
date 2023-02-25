@@ -1,0 +1,113 @@
+﻿@inherits BlazorCommon.Grid.GridBase
+@namespace BlazorCommon.Grid
+
+
+
+@if (GridConfig != null)
+{
+    <div>
+        <div class="row">
+            <div class="col-8">
+                <h3 style="display:@(!string.IsNullOrWhiteSpace(GridConfig.GridTitle) ?"block": "none")">
+                    @GridConfig.GridTitle
+                    <span style="font-size:12px">
+                        @GridConfig.Total items
+                    </span>
+
+                </h3>
+            </div>
+        </div>
+        
+
+        @if (GridConfig.ItemList != null && GridConfig.GridColumnBases != null)
+        {
+            <div class="row">
+                <SearchBar GridConfiguration="GridConfig" OnSearch="GetFilteredList" OnRemoveFilter="RemoveFilter" Theme="Theme"></SearchBar>
+            </div>
+            <table class=" table table-bordered table-striped ">
+                <thead>
+                    <tr class="theme">
+                        @foreach (GridColumnBase gridColumn in GridConfig.GridColumnBases.Where(x => !x.KeyColumn).OrderBy(x => x.Position))
+                        {                            
+                            <td Class="demo-h" SortId="@gridColumn.PropertyInfo.Name">
+                                @if (gridColumn.Searchable)
+                                {
+                                    if(gridColumn.GridSearch == null)
+                                    {
+                                        <span style="cursor:pointer;color:@(Theme.HeaderFontColor)" Title="@BlazorDic.ColumnFilter" @onclick="()=>OpenCloseFilter(gridColumn)">&#9660;</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="cursor:pointer;color:@(Theme.HeaderFontColor)" Title="@BlazorDic.RemoveColumnFilter" @onclick="()=>RemoveFilter(gridColumn)">&#9746;</span>
+                                    }
+                                }                                
+                                <span @onclick="()=> SortColumn(gridColumn)">
+                                @gridColumn.Name <span>@((MarkupString)gridColumn.SortSymbol)</span>
+                                </span>
+                            </td>
+
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in GridConfig.ItemList)
+                    {
+                        <tr id="@item.RowBaseId" @onclick="() => OnRowClick(item)">
+                            @foreach (GridColumnBase gridColumn in GridConfig.GridColumnBases.Where(x => !x.KeyColumn).OrderBy(x => x.Position))
+                            {
+                                if (gridColumn.PropertyType == PropertyType.image || gridColumn.PropertyType == PropertyType.imageRag)
+                                {
+                                    var value = $"<img src='{gridColumn.PropertyInfo.GetValue(item)}' style='max-width:30px'/>";
+                                    <td>@((MarkupString)value)</td>
+                                }
+                                else
+                                {
+                                    <td class="tdColor">@gridColumn.PropertyInfo.GetValue(item)</td>
+                                }
+                            }
+                        </tr>
+                        @if (item.RowExpanded)
+                        {                            
+                            <tr>
+                                <td colspan="@GridConfig.GridColumnBases.Where(x => !x.KeyColumn).Count()">
+                                    <div class="row text-center">
+                                    @foreach (ExpandedRowOption ero in item.ExpandedRowOptions)
+                                    {          
+                                        <div class="col">
+                                                <a @onclick="()=>GoToPage(ero)" class="btn btn-block form-control text-center theme" style="background-color:@Theme.HeaderColor">@ero.ToString()</a>
+                                            </div>
+                                    }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <div style="display:@(GridConfig.ItemList.Any() && GridConfig.PreviousTotal >= GridConfig.PageSize ?"block": "none")">
+                <Paginator GridConfig="@GridConfig" GridConfigChanged="@OnPageChanged" />
+            </div>
+            <div style="display:@(!GridConfig.ItemList.Any() ?"block": "none")">
+                <p class="text-danger text-center"> No results found </p>
+            </div>
+
+        }
+        <div style="display:@(GridConfig.GridColumnBases == null ?"block": "none")">
+            <p class="text-danger text-center"> Oops, No columns in this grid </p>
+        </div>
+    </div>
+}
+else
+{
+    <p class="text-danger">We can't display the grid. You must implement GridConfiguration. <span class="text-info">"GridConfig="@(new GridConfigurationBase())"</span></p>
+}
+
+<ModalGridSearch @ref="ModalGridSearch" GridSearchChanged="AddSearch"/>
+
+
+<style>
+    .theme {
+        background-color: @(Theme.HeaderColor);
+        color: @Theme.HeaderFontColor !important;
+    }
+</style>

@@ -1,0 +1,13 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@inherits DateSearchBase
+
+<div class="@DivClass">
+
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label class="control-label">@Label</label>
+    }
+    <div class="input-group">
+         <InputDate @bind-Value="@Date" min="@MinDate" max="@MaxDate" class="form-control"></InputDate>
+    </div>
+</div>

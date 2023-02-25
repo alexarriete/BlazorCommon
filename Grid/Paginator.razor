@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Components
+@namespace BlazorCommon.Grid
+@inherits PaginatorBase
+
+<div class="container">
+    <div class="row justify-content-md-center">
+
+        <nav aria-label="...">
+            <ul class="pagination" style="cursor:pointer">
+                <li class="page-item  @(GridConfig.PageIndex == 1 ? "disabled" : "")">
+                    <a class="page-link" @onclick="() => OnPageSelected(1)" tabindex="-1">
+                        <span>&#8606;</span>
+                    </a>
+                </li>
+                <li class="page-item  @(GridConfig.PageIndex == 1 ? "disabled" : "")">
+                    <a class="page-link" @onclick="() => OnPageSelected(GridConfig.PageIndex - 1)" tabindex="-1">
+                        <span>&#8592;</span>
+                    </a>
+                </li>
+                @foreach (var item in GetPageList())
+                {
+                    <li class="page-item @(item == GridConfig.PageIndex ? "" : "page-link-next")"><a class="page-link @(item == GridConfig.PageIndex ? "itemSelected" : "")" @onclick="() => OnPageSelected(item)">@item</a></li>
+                }
+                <li class="page-item @(GridConfig.PageIndex == NumberOfPages ? "disabled" : "")">
+                    <a class="page-link" @onclick="() => OnPageSelected(GridConfig.PageIndex + 1)">
+                        <span>&#8594;</span>
+                    </a>
+                </li>
+                <li class="page-item @(GridConfig.PageIndex == NumberOfPages ? "disabled" : "")">
+                    <a class="page-link" @onclick="() => OnPageSelected(NumberOfPages)">
+                        <span>&#8608;</span>
+                        <span class="fa-arrow-right-to-bracket"></span>
+                    </a>
+                </li>
+                <li class="page-item row-total"><a class="page-link">@($"{BlazorDic.Total}: {GridConfig.Total}")</a></li>
+                <li class="page-item row-total"><a class="page-link">@($"{BlazorDic.Rows}:")</a></li>
+                <li class="page-item row-total"><a class="page-link @(10 == GridConfig.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(10)">10</a></li>
+                <li class="page-item row-total"><a class="page-link @(20 == GridConfig.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(20)">20</a></li>
+                <li class="page-item row-total"><a class="page-link @(50 == GridConfig.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(50)">50</a></li>
+                <li class="page-item row-total"><a class="page-link @(100 == GridConfig.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(100)">100</a></li>
+                <li class="page-item row-total"><a class="page-link @(GridConfig.Total == GridConfig.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(GridConfig.Total)">@BlazorDic.All</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<style>
+    .page-link {
+        color: black !important;
+        height: 30px;
+        border: none;
+    }
+
+    .itemSelected {
+        color: white !important;
+        background-color: black !important;
+        font-weight: bold;
+        font-size: 16px;
+        padding-top: 5px !important;
+    }
+
+    .pagination {
+        justify-content: right;
+    }
+
+        .pagination .page-link-next,
+        .pagination .row-total {
+            display: inline;
+        }
+
+</style>

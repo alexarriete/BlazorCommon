@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Components
+@inherits BlazorCommon.Modal.ModalTemplateBase
+@namespace BlazorCommon.Modal
+
+<div class="modal fade @($"{VisibilityClass} {FadeClass}")" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="display:@(ModalDisplay)" >
+    <div class="modal-dialog @(ModalClass)" role="document">
+        <div class="modal-content">
+            <div class="@(HeaderClass)">
+                <h3 class="modal-title text-center" title="@Title">@Title</h3>               
+            </div>
+            @ChildContent
+        </div>
+    </div>
+</div>  

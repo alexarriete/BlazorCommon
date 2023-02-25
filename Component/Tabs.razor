@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components
+@inherits TabsBase
+@namespace BlazorCommon
+@if (tabs != null)
+{
+    <nav>
+        <div class="nav nav-pills mb-3" id="nav-tab" role="tablist">
+            @foreach (TabElement tab in tabs)
+            {
+                <button @onclick="()=>OnClick(tab)" class="nav-link @(tab.Active ? "active": "")" id="@tab.CssId" data-bs-toggle="pill" data-bs-target="#@($"{tab.CssId}{tab.ButtonName}")" type="button" role="tab" aria-controls="nav-home" aria-selected="true">@tab.ButtonName</button>
+            }
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        @foreach (TabElement tab in tabs)
+        {
+            <div class="tab-pane fade show @(tab.Active ? "active": "")" id="@($"{tab.CssId}{tab.ButtonName}")" role="tabpanel" aria-labelledby="nav-home-tab">
+                @TabContent(tab)
+            </div>
+        }
+    </div>
+}
+
+<style>
+   .nav-pills .nav-link.active {
+    background-color: @Theme.HeaderColor !important;
+}
+</style>

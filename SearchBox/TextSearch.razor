@@ -1,0 +1,43 @@
+﻿@inherits TextSearchBase
+
+<div class="@DivClass">
+
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label class="control-label">@Label</label>
+    }
+    <div class="input-group">
+        <input type="@InputType" id="@RandomId" class="form-control" placeholder="@Placeholder" min="@MinNumber" max="@MaxNumber"
+               @bind-value="@Text" @onkeydown='@(e=>OnChangeTextBox(e, RandomId))' @onclick='()=>ResetValue()' @onpaste='@(e=>OnChangeTextBox(e, RandomId))' />
+
+        @if (!string.IsNullOrWhiteSpace(Text) && Text.Length < 3 && Elements != null && Elements.Any())
+        {
+            <span style="color:brown">MinNumberOfCharacters (3)</span>
+        }
+        @if (!string.IsNullOrWhiteSpace(Text) && Text.Length > 2 && !SelectedText && SelectedElements != null)
+        {
+            <div class="float-options">
+                @foreach (Tuple<int, string> element in SelectedElements)
+                {
+                    <span class="btn btn-block form-control" @onclick="()=>SelectTupleAsync(element)">@element.Item2</span>
+                }
+            </div>
+        }
+
+    </div>
+</div>
+
+<style>
+    .float-options {
+        max-height: 185px;
+        overflow-y: auto;
+        position: absolute;
+        top: 35px;
+        z-index: 10;
+        background: white;
+        border-radius: 3px;
+        padding-bottom: 5px;
+        min-width: 280px;
+    }
+
+</style>

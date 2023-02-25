@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components;
+@inherits ModalCommonBase
+@namespace BlazorCommon.Modal
+
+@if (!string.IsNullOrEmpty(Text) || ModalType == ModalType.GetSingleText)
+{
+    <div class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content rounded-1 border border-dark">
+                <div class="modal-header">
+                    <h3 class="text-center">@Title</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">@SubTitle</p>
+                    @((MarkupString)Body)
+                </div>
+                <div class="modal-footer">
+                    @if (ModalType == ModalType.AcceptDecline || ModalType == ModalType.GetSingleText)
+                    {
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-success form-control" data-dismiss="modal" @onclick="() => Confirm()">Confirmar</button>
+                        </div>
+
+                    }
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-danger form-control" data-dismiss="modal" @onclick="() => Close()">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
