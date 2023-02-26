@@ -23,6 +23,11 @@ namespace BlazorCommon
             return aceptDeclineResult;
         }
 
+        public virtual void ModalResultChanged(bool outResult)
+        {
+            StateHasChanged();            
+        }
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();

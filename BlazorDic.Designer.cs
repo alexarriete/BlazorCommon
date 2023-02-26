@@ -106,11 +106,29 @@ namespace BlazorCommon {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Close.
+        /// </summary>
+        internal static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Column Filter.
         /// </summary>
         internal static string ColumnFilter {
             get {
                 return ResourceManager.GetString("ColumnFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Confirm.
+        /// </summary>
+        internal static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
             }
         }
         

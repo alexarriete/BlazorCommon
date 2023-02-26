@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace BlazorCommon.Modal
 {
-    public class ModalCommonBase : HtmlComponentBase
+    public class ModalCommonBase : ComponentBase
     {
         public string ModalDisplay = "none;";
         public string ModalClass = "";
         public bool ShowBackdrop = false;
+        private IJSRuntime JSRuntime { get; set; }
 
         public string Title { get; set; }
         public string SubTitle { get; set; }
@@ -19,21 +20,18 @@ namespace BlazorCommon.Modal
         public ModalType ModalType { get; set; }
         public MessageType MessageType { get; set; }
         protected string Body { get; set; }
-
-        [Parameter] public bool OutResult { get; set; }
+                
         [Parameter] public EventCallback<bool> OutResultChanged { get; set; }
 
 
-        public void Open(MessageType messageType, ModalType modalType)
+        public void Open(IJSRuntime jSRuntime, ModalType modalType)
         {
+            JSRuntime = jSRuntime;
             ModalType = modalType;
-            MessageType = messageType;
-            SelectTitleAndSubtitle();
-
             CreateBody();
 
             ModalDisplay = "block;";
-            ModalClass = "Show";
+            ModalClass = "show  alert-dark";
             ShowBackdrop = true;
             InvokeAsync(() => StateHasChanged());
         }
@@ -49,45 +47,31 @@ namespace BlazorCommon.Modal
             else if (ModalType == ModalType.GetSingleText)
             {
                 Text = string.Empty;
-                stringBuilder.Append($"<input type='text' class='form-control' id='textId' autocomplete='off' />");
-                stringBuilder.Append("<p class='text-center'>Escriba el valor</p>");
+                stringBuilder.Append($"<input type='text' class='form-control' id='textId' autocomplete='off' />");                
             }
             Body = stringBuilder.ToString();
         }
 
-        public async Task Close()
+        public async Task Close(bool accepted)
         {
             ModalDisplay = "none";
             ModalClass = "";
             ShowBackdrop = false;
-            await OutResultChanged.InvokeAsync(OutResult);
+            if (!accepted)
+            {
+                await OutResultChanged.InvokeAsync(false);
+            }
         }
 
         public async Task Confirm()
         {
-            Text = await new JsHelper().JsGetTextById("textId");
-            OutResult = true;
-            await Close();
+            if (ModalType == ModalType.GetSingleText)
+                Text = await new JsHelper(JSRuntime).JsGetTextById("textId");            
+            await OutResultChanged.InvokeAsync(true);
+            await Close(true);
         }
 
-        private void SelectTitleAndSubtitle()
-        {
-            Title = SubTitle = string.Empty;
-            switch (MessageType)
-            {
-                case MessageType.error:
-                    Title = "Error!";
-                    break;
-                case MessageType.warning:
-                    Title = "Advertencia";
-                    break;
-                case MessageType.success:
-                    Title = "Éxito";
-                    break;             
-                default:
-                    break;
-            }
-        }
+
 
     }
 }
