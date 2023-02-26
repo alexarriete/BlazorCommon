@@ -33,11 +33,6 @@ namespace BlazorCommon.Grid
             await OnSearch.InvokeAsync(true);
         }
 
-        protected async Task CleanFilters()
-        {
-            await OnSearch.InvokeAsync(false);
-        }
-
         protected async Task RemoveFilter(GridSearch gridSearch)
         {
             var gridcolumbase = GridConfiguration.GridColumnBases.FirstOrDefault(x => x.Name == gridSearch.ColumnName && x.Position == gridSearch.Position);
