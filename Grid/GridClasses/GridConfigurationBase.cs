@@ -27,12 +27,17 @@ namespace BlazorCommon.Grid
 
         public GridConfigurationBase()
         {
-            PageSize = 10;
-            PageIndex = 1;            
-            ItemType = Task.Run(()=>GetObjectTypeAsync()).Result;
-            GridTitle = $"{ItemType.Name} list";                        
+            Inizialice();
+        }
 
-            KeyColumn = Task.Run(() => GetSourceListAsync()).Result.FirstOrDefault().GetType().GetProperties()
+        private async Task Inizialice()
+        {
+            PageSize = 10;
+            PageIndex = 1;
+            ItemType = await GetObjectTypeAsync();
+            GridTitle = $"{ItemType.Name} list";
+
+            KeyColumn = (await GetSourceListAsync()).FirstOrDefault().GetType().GetProperties()
                .FirstOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), inherit: false).Any())?.Name;
 
             GridColumnBases = GetGridColumnBase();
