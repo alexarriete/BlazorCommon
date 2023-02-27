@@ -61,4 +61,9 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\img\Examples\filter_example.jpg" />
+    <None Include="wwwroot\img\Examples\GridExample.jpg" />
+  </ItemGroup>
+
 </Project>
