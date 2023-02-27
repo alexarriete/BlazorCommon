@@ -27,7 +27,7 @@ using BlazorCommon.Grid;
 
 Grids are one of the most used components today, they are also one of the main headaches when it comes to maintaining the code. We present a simple and configurable option.
 
-![Getting Simple grid](./GridExample.jpg)
+![Getting Simple grid](wwwroot/img/Examples/GridExample.jpg)
 
 ##### How to implement it
 
@@ -149,7 +149,7 @@ The RowBase class determines the behavior and appearance of rows within the tabl
 
 By default the grid implements the filters and the ordering of all its columns. This can be changed using a class derived from GridColumnBase. This in turn is initialized from GridConfigurationBase, which is finally the object that we pass as a parameter to the component.
 
-![Getting filter grid](./filter_example.jpg)
+![Getting filter grid](wwwroot/img/Examples/filter_example.jpg)
 
 ```csharp
 
