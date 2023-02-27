@@ -1,4 +1,4 @@
-[![Getting Started](https://img.shields.io/badge/lang-en-red.svg)](https://www.nuget.org/packages/SqlClientCoreTool) [![Getting Started](https://img.shields.io/badge/lang-es-yellow.svg)](https://www.nuget.org/packages/SqlClientCoreTool)
+[![Getting Started](https://img.shields.io/badge/lang-en-red.svg)](https://www.nuget.org/packages/BlazorCommon) [![Getting Started](https://img.shields.io/badge/lang-es-yellow.svg)](https://www.nuget.org/packages/BlazorCommon)
 
 # Qué es BlazorCommon?
 
