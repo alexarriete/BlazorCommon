@@ -154,4 +154,10 @@
   <data name="Confirm" xml:space="preserve">
     <value>Confirmar</value>
   </data>
+  <data name="NoColumns" xml:space="preserve">
+    <value>El grid no tiene columnas</value>
+  </data>
+  <data name="SearchAction" xml:space="preserve">
+    <value>Los parámetros de búsqueda han cambiado.</value>
+  </data>
 </root>

@@ -19,15 +19,15 @@ namespace BlazorCommon.Grid
         {
             if (pageIndex > 0 && pageIndex <= NumberOfPages)
             {
-                GridConfig.PageIndex = pageIndex;
+                GridConfig.QueryResult.PageIndex = pageIndex;
                 await GridConfigChanged.InvokeAsync(GridConfig);
             }
         }
 
         protected async Task OnPageSizeSelected(int pagesize)
         {
-            GridConfig.PageSize = pagesize;
-            GridConfig.PageIndex = 1;
+            GridConfig.QueryResult.PageSize = pagesize;
+            GridConfig.QueryResult.PageIndex = 1;
             await GridConfigChanged.InvokeAsync(GridConfig);
 
         }
@@ -44,24 +44,24 @@ namespace BlazorCommon.Grid
             }
             else if (NumberOfPages > 5)
             {
-                if (NumberOfPages - GridConfig.PageIndex <= 5 && NumberOfPages != GridConfig.PageIndex)
+                if (NumberOfPages - GridConfig.QueryResult.PageIndex <= 5 && NumberOfPages != GridConfig.QueryResult.PageIndex)
                 {
-                    var ist = 5 - (NumberOfPages - GridConfig.PageIndex);
-                    for (int i = GridConfig.PageIndex - ist; i <= NumberOfPages; i++)
+                    var ist = 5 - (NumberOfPages - GridConfig.QueryResult.PageIndex);
+                    for (int i = GridConfig.QueryResult.PageIndex - ist; i <= NumberOfPages; i++)
                     {
                         pageList.Add(i);
                     }
                 }
-                else if (GridConfig.PageIndex == NumberOfPages)
+                else if (GridConfig.QueryResult.PageIndex == NumberOfPages)
                 {
-                    for (int i = (GridConfig.PageIndex - 5); i <= (NumberOfPages); i++)
+                    for (int i = (GridConfig.QueryResult.PageIndex - 5); i <= (NumberOfPages); i++)
                     {
                         pageList.Add(i);
                     }
                 }
                 else
                 {
-                    for (int i = GridConfig.PageIndex; i < (GridConfig.PageIndex + 5); i++)
+                    for (int i = GridConfig.QueryResult.PageIndex; i < (GridConfig.QueryResult.PageIndex + 5); i++)
                     {
                         pageList.Add(i);
                     }
@@ -71,8 +71,8 @@ namespace BlazorCommon.Grid
         }
         protected int GetNumberOfPages()
         {
-            int pages = GridConfig.Total / GridConfig.PageSize;
-            int mod = GridConfig.Total % GridConfig.PageSize;
+            int pages = GridConfig.QueryResult.Total / GridConfig.QueryResult.PageSize;
+            int mod = GridConfig.QueryResult.Total % GridConfig.QueryResult.PageSize;
             return mod > 0 ? pages + 1 : pages;
         }
     }

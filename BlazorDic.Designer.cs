@@ -178,6 +178,15 @@ namespace BlazorCommon {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Oops, No columns in this grid.
+        /// </summary>
+        internal static string NoColumns {
+            get {
+                return ResourceManager.GetString("NoColumns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Insert number.
         /// </summary>
         internal static string NumberInsert {
@@ -210,6 +219,15 @@ namespace BlazorCommon {
         internal static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Press Search to get fresh results.
+        /// </summary>
+        internal static string SearchAction {
+            get {
+                return ResourceManager.GetString("SearchAction", resourceCulture);
             }
         }
         

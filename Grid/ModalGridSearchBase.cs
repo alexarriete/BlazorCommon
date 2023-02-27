@@ -14,11 +14,33 @@ namespace BlazorCommon.Grid
         protected ModalTemplate ModalTemplate { get; set; }
         protected GridSearch GridSearch { get; set; }
         [Parameter] public EventCallback<GridSearch> GridSearchChanged { get; set; }        
-
+        
+        private GridSearch PreviousGridSearch { get; set; }
         public void Open(GridSearch gridSearch)
         { 
             GridSearch = gridSearch;
+            CreatePreviousGridSearch();
             ModalTemplate.Open();
+        }
+
+        private void CreatePreviousGridSearch()
+        {
+            PreviousGridSearch = new GridSearch();
+            PreviousGridSearch.ColumnName= GridSearch.ColumnName;
+            PreviousGridSearch.NumberSearchTypeSelected = GridSearch.NumberSearchTypeSelected;
+            PreviousGridSearch.Position = GridSearch.Position;
+            PreviousGridSearch.SearchPropName = GridSearch.SearchPropName;
+            PreviousGridSearch.SearchDateFrom= GridSearch.SearchDateFrom;
+            PreviousGridSearch.SearchDateTo = GridSearch.SearchDateTo;
+            PreviousGridSearch.SearchText= GridSearch.SearchText;
+            PreviousGridSearch.SearchText2= GridSearch.SearchText2;
+            
+        }
+
+        private bool GridSearchHaveChanged(GridSearch gridSearch)
+        {
+            return PreviousGridSearch.SearchText != GridSearch.SearchText || PreviousGridSearch.SearchText2 != GridSearch.SearchText2
+                || PreviousGridSearch.SearchDateFrom != GridSearch.SearchDateFrom || PreviousGridSearch.SearchDateTo != GridSearch.SearchDateTo;
         }
         protected void NumberSelectionChanged(ChangeEventArgs args)
         {
@@ -31,8 +53,11 @@ namespace BlazorCommon.Grid
         }
         public async Task Accept()
         {
-            await GridSearchChanged.InvokeAsync(GridSearch);
-            Close();
+            if(GridSearchHaveChanged(GridSearch))
+            {
+                await GridSearchChanged.InvokeAsync(GridSearch);
+                Close();
+            }            
         }
 
         protected void SetRagFilter(int code)

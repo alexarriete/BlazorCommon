@@ -31,6 +31,13 @@ namespace BlazorCommon.SearchBox
 
         protected override async Task OnInitializedAsync()
         {
+            if (MinNumber == 0 && MaxNumber == 0)
+            {
+                MinNumber = int.MinValue;
+                MaxNumber = int.MaxValue;
+            }
+                
+
             InputType = string.IsNullOrEmpty(InputType) ? "text" : InputType;         
             RandomId = GetRandomId();
             await base.OnInitializedAsync();

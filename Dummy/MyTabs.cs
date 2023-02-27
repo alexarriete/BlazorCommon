@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+﻿using BlazorCommon.Grid;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,7 @@ namespace BlazorCommon
                 CssId = "id3",
                 ButtonName = "A Grid",
                 Type = TabType.Grid,
-                GridConfig = new Grid.GridConfigurationBase()
+                GridConfig = GridConfigurationBase.GetInstance()
               
             });
 

@@ -11,7 +11,7 @@
                 <h3 style="display:@(!string.IsNullOrWhiteSpace(GridConfig.GridTitle) ?"block": "none")">
                     @GridConfig.GridTitle
                     <span style="font-size:12px">
-                        @GridConfig.Total items
+                        @GridConfig?.QueryResult?.Total items
                     </span>
 
                 </h3>
@@ -19,7 +19,7 @@
         </div>
         
 
-        @if (GridConfig.ItemList != null && GridConfig.GridColumnBases != null)
+        @if (GridConfig.QueryResult != null && GridConfig.QueryResult.List != null && GridConfig.GridColumnBases != null)
         {
             <div class="row">
                 <SearchBar GridConfiguration="GridConfig" OnSearch="GetFilteredList" OnRemoveFilter="RemoveFilter" Theme="Theme"></SearchBar>
@@ -36,10 +36,7 @@
                                     {
                                         <span style="cursor:pointer;color:@(Theme.HeaderFontColor)" Title="@BlazorDic.ColumnFilter" @onclick="()=>OpenCloseFilter(gridColumn)">&#9660;</span>
                                     }
-                                    else
-                                    {
-                                        <span style="cursor:pointer;color:@(Theme.HeaderFontColor)" Title="@BlazorDic.RemoveColumnFilter" @onclick="()=>RemoveFilter(gridColumn)">&#9746;</span>
-                                    }
+                                  
                                 }                                
                                 <span @onclick="()=> SortColumn(gridColumn)">
                                 @gridColumn.Name <span>@((MarkupString)gridColumn.SortSymbol)</span>
@@ -50,7 +47,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in GridConfig.ItemList)
+                    @foreach (var item in GridConfig.QueryResult.List)
                     {
                         <tr id="@item.RowBaseId" @onclick="() => OnRowClick(item)">
                             @foreach (GridColumnBase gridColumn in GridConfig.GridColumnBases.Where(x => !x.KeyColumn).OrderBy(x => x.Position))
@@ -84,22 +81,22 @@
                     }
                 </tbody>
             </table>
-            <div style="display:@(GridConfig.ItemList.Any() && GridConfig.PreviousTotal >= GridConfig.PageSize ?"block": "none")">
+            <div style="display:@(GridConfig.QueryResult.List.Any() && GridConfig.QueryResult.NotFilteredTotal >= GridConfig.QueryResult.PageSize ?"block": "none")">
                 <Paginator GridConfig="@GridConfig" GridConfigChanged="@OnPageChanged" />
             </div>
-            <div style="display:@(!GridConfig.ItemList.Any() ?"block": "none")">
+            <div style="display:@(!GridConfig.QueryResult.List.Any() ?"block": "none")">
                 <p class="text-danger text-center"> No results found </p>
             </div>
 
         }
         <div style="display:@(GridConfig.GridColumnBases == null ?"block": "none")">
-            <p class="text-danger text-center"> Oops, No columns in this grid </p>
+            <p class="text-danger text-center"> @BlazorDic.NoColumns </p>
         </div>
     </div>
 }
 else
 {
-    <p class="text-danger">We can't display the grid. You must implement GridConfiguration. <span class="text-info">"GridConfig="@(new GridConfigurationBase())"</span></p>
+    <p class="text-danger">We can't display the grid. You must implement GridConfiguration. <span class="text-info">"GridConfig="@(GridConfigurationBase.GetInstance())"</span></p>
 }
 
 <ModalGridSearch @ref="ModalGridSearch" GridSearchChanged="AddSearch"/>

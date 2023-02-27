@@ -42,7 +42,7 @@ namespace BlazorCommon
             ANumber = aNumber;
         }
 
-        public async static Task<IEnumerable<Animal>> GetAll()
+        public static IEnumerable<Animal> GetAll()
         {
             List<Animal> list = GetDummyAnimals();
             DateTime min = list.Select(x => Convert.ToDateTime(x.Date)).Min();

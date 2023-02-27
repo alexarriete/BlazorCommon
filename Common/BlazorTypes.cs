@@ -25,6 +25,7 @@ namespace BlazorCommon
     {
         Text,
         HtmlText,
-        Grid
+        Grid,
+        Main
     }
 }

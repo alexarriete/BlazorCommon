@@ -14,21 +14,11 @@ namespace BlazorCommon.Grid
 
         protected override async Task OnInitializedAsync()
         {
-            Theme = Theme == null ? new Theme(): Theme;
-            if (GridConfig != null)
-            {
-                await ConfigureProperties();
-            }
+            Theme = Theme == null ? new Theme(): Theme;           
             await base.OnInitializedAsync();
         }
 
-        private async Task ConfigureProperties()
-        {
-            GridConfig.Total = (await GridConfig.GetListAsync()).Count();
-            GridConfig.ItemList = await GridConfig.GetPageAsync(Sort);
-        }
-
-        protected async Task SortColumn(GridColumnBase thisColumn)
+        protected void SortColumn(GridColumnBase thisColumn)
         {
             foreach (GridColumnBase gridColumn in GridConfig.GridColumnBases)
             {
@@ -55,54 +45,39 @@ namespace BlazorCommon.Grid
                 {
                     gridColumn.SortSymbol = "";
                 }
-            }
-            GridConfig.ItemList = await GridConfig.GetPageAsync(Sort);
+            }            
+            GridConfig.QueryResult = GridConfig.GetSortedPage(Sort);
         }
 
 
-        protected async Task OnPageChanged(GridConfigurationBase gridConfiguration)
+        protected void OnPageChanged(GridConfigurationBase gridConfiguration)
         {
-            GridConfig.ItemList = await GridConfig.GetPageAsync(Sort);
+            GridConfig.QueryResult = GridConfig.GetSortedPage(Sort);
         }
 
 
 
-        protected async Task Test()
-        {
-            try
-            {
-                await GridConfig.TestAsync();
-                await SetToast(MessageType.success, "It's working");
+        //protected async Task DownloadExcel()
+        //{
 
-            }
-            catch (Exception ex)
-            {
-                await SetToast(MessageType.error, ex.Message);
-            }
+        //    byte[] bytes = await GridConfig.DownloadExcel(await GridConfig.GetListAsync());
+        //    string fileName = string.IsNullOrWhiteSpace(GridConfig.ExcelFileName)
+        //        ? $"{GridConfig.GridTitle}{DateTime.Now.Date.ToShortDateString().Replace("/", "-")}.xlsx"
+        //        : GridConfig.ExcelFileName;
+        //    JsHelper jsHelper = new JsHelper();
+        //    ErrorMessage = await jsHelper.DownloadExcelAsync(bytes, fileName);
+        //}
 
+        //protected async Task DownloadSample()
+        //{
+        //    byte[] bytes = await GridConfig.DownloadExcel(new List<object>());
+        //    string fileName = "Sample_" + (string.IsNullOrWhiteSpace(GridConfig.ExcelFileName)
+        //        ? $"{GridConfig.GridTitle}{DateTime.Now.Date.ToShortDateString().Replace("/", "-")}.xlsx"
+        //        : GridConfig.ExcelFileName);
 
-        }
-
-        protected async Task DownloadExcel()
-        {
-            byte[] bytes = await GridConfig.DownloadExcel(await GridConfig.GetListAsync());
-            string fileName = string.IsNullOrWhiteSpace(GridConfig.ExcelFileName)
-                ? $"{GridConfig.GridTitle}{DateTime.Now.Date.ToShortDateString().Replace("/", "-")}.xlsx"
-                : GridConfig.ExcelFileName;
-            JsHelper jsHelper = new JsHelper();
-            ErrorMessage = await jsHelper.DownloadExcelAsync(bytes, fileName);
-        }
-
-        protected async Task DownloadSample()
-        {
-            byte[] bytes = await GridConfig.DownloadExcel(new List<object>());
-            string fileName = "Sample_" + (string.IsNullOrWhiteSpace(GridConfig.ExcelFileName)
-                ? $"{GridConfig.GridTitle}{DateTime.Now.Date.ToShortDateString().Replace("/", "-")}.xlsx"
-                : GridConfig.ExcelFileName);
-
-            JsHelper jsHelper = new JsHelper();
-            ErrorMessage = await jsHelper.DownloadExcelAsync(bytes, fileName);
-        }
+        //    JsHelper jsHelper = new JsHelper();
+        //    ErrorMessage = await jsHelper.DownloadExcelAsync(bytes, fileName);
+        //}
 
 
         protected void OpenCloseFilter(GridColumnBase gridColumn)
@@ -121,12 +96,12 @@ namespace BlazorCommon.Grid
             GridConfig.GridColumnBases.FirstOrDefault(x => x.Name == gridSearch.ColumnName && x.Position == gridSearch.Position).GridSearch = gridSearch;
         }
 
-        protected async Task GetFilteredList(bool result)
+        protected void GetFilteredList(bool result)
         {
             if (result)
             {
                 Filtered = true;
-                GridConfig.ItemList = await GridConfig.GetPageAsync(Sort);
+                GridConfig.QueryResult = GridConfig.GetSourceList();
             }
             else
             {
@@ -137,7 +112,7 @@ namespace BlazorCommon.Grid
                 if (Filtered)
                 {
                     Filtered = false;
-                    GridConfig.ItemList = await GridConfig.GetPageAsync(Sort);
+                    GridConfig.QueryResult = GridConfig.GetSourceList();
                 }
             }
         }
@@ -146,7 +121,7 @@ namespace BlazorCommon.Grid
         {
             if (!item.RowExpanded)
             {
-                foreach (var il in GridConfig.ItemList)
+                foreach (var il in GridConfig.QueryResult.List)
                 {
                     il.RowExpanded = false;
                 }               

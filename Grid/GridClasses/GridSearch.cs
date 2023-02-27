@@ -40,7 +40,9 @@ namespace BlazorCommon.Grid
         public PropertyInfo SearchProperty { get; set; }        
         public bool CaseSensitive { get; set; }
         public NumberSelectionType NumberSearchTypeSelected { get; set; }
+        public bool Searched { get; set; }
 
+        public GridSearch() { } 
         public GridSearch(GridColumnBase gridColumn)
         {
             ColumnName = gridColumn.Name;
@@ -53,51 +55,48 @@ namespace BlazorCommon.Grid
             SearchDateTo = DateTime.Today;
         }     
 
-        public async Task<List<RowBase>> GetFilteredByDateTimeInterval(List<RowBase> objects)
+        public IEnumerable<RowBase> GetFilteredByDateTimeInterval(IEnumerable<RowBase> objects)
         {
             DateTime result = DateTime.MinValue;
-            return await Task.Run(() => objects.Where(n => (SearchProperty == null ? true
+            return objects.Where(n => (SearchProperty == null ? true
                      : SearchProperty.GetValue(n, null) == null)
                      || (!DateTime.TryParse(SearchProperty.GetValue(n, null).ToString(), out result) ? false
                      : Convert.ToDateTime(SearchProperty.GetValue(n, null)) > SearchDateFrom)
-                        && (Convert.ToDateTime(SearchProperty.GetValue(n, null)) <= SearchDateTo)).ToList());
+                        && (Convert.ToDateTime(SearchProperty.GetValue(n, null)) <= SearchDateTo));
         }
 
-        public async Task<List<RowBase>> GetEqualsValues(List<RowBase> objects)
+        public IEnumerable<RowBase> GetEqualsValues(IEnumerable<RowBase> objects)
         {
-            return await Task.Run(()=> objects.Where(n => SearchProperty == null ? true
+            return objects.Where(n => SearchProperty == null ? true
                         : SearchProperty.GetValue(n, null) == null ? false
-                        : (SearchProperty.GetValue(n, null).ToString() == SearchText)).ToList());
+                        : (SearchProperty.GetValue(n, null).ToString() == SearchText));
         }
 
-        public async Task<List<RowBase>> GetGreaterThanValues(List<RowBase> objects)
+        public IEnumerable<RowBase> GetGreaterThanValues(IEnumerable<RowBase> objects)
         {
-            return await Task.Run(() => objects.Where(n => SearchProperty == null ? true
+            return objects.Where(n => SearchProperty == null ? true
                          : SearchProperty.GetValue(n, null) == null ? false
-                         : (double.Parse(SearchProperty.GetValue(n, null).ToString()) > double.Parse(SearchText))).ToList());
+                         : (double.Parse(SearchProperty.GetValue(n, null).ToString()) > double.Parse(SearchText)));
         }
 
-        public async Task<List<RowBase>> GetLessThanValues(List<RowBase> objects)
+        public IEnumerable<RowBase> GetLessThanValues(IEnumerable<RowBase> objects)
         {
-            return await Task.Run(() => objects.Where(n => SearchProperty == null ? true 
-            : SearchProperty.GetValue(n, null) == null ? false 
-            : (double.Parse(SearchProperty.GetValue(n, null).ToString()) < double.Parse(SearchText))).ToList());
+            return objects.Where(n => SearchProperty == null ? true : SearchProperty.GetValue(n, null) == null ? false 
+            : (double.Parse(SearchProperty.GetValue(n, null).ToString()) < double.Parse(SearchText)));
         }
 
-        public async Task<List<RowBase>> GetBetweenValues(List<RowBase> objects)
+        public IEnumerable<RowBase> GetBetweenValues(IEnumerable<RowBase> objects)
         {
-            return await Task.Run(() => objects.Where(n => SearchProperty == null ? true
-                         : SearchProperty.GetValue(n, null) == null ? false
-                          : ( (double.Parse(SearchProperty.GetValue(n, null).ToString()) > double.Parse(SearchText)) 
-                               && double.Parse(SearchProperty.GetValue(n, null).ToString()) < double.Parse(SearchText2))).ToList());
+            return objects.Where(n => SearchProperty == null ? true : SearchProperty.GetValue(n, null) == null ? false 
+            : ((double.Parse(SearchProperty.GetValue(n, null).ToString()) > double.Parse(SearchText)) && double.Parse(SearchProperty.GetValue(n, null).ToString()) < double.Parse(SearchText2)));
         }
 
-        public async Task<List<RowBase>> GetTextContains(List<RowBase> objects)
+        public IEnumerable<RowBase> GetTextContains(IEnumerable<RowBase> objects)
         {
             SearchText = SearchText.RemoveDiacritics(!CaseSensitive);
-            return  await Task.Run(()=> objects.Where(n => SearchProperty == null ? true
+            return  objects.Where(n => SearchProperty == null ? true
                        : SearchProperty.GetValue(n, null) == null ? false
-                       : (SearchProperty.GetValue(n, null).ToString() ?? "").RemoveDiacritics(!CaseSensitive).Contains(SearchText)).ToList());
+                       : (SearchProperty.GetValue(n, null).ToString() ?? "").RemoveDiacritics(!CaseSensitive).Contains(SearchText));
         }
        
     }

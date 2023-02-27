@@ -7,38 +7,38 @@
 
         <nav aria-label="...">
             <ul class="pagination" style="cursor:pointer">
-                <li class="page-item  @(GridConfig.PageIndex == 1 ? "disabled" : "")">
+                <li class="page-item  @(GridConfig.QueryResult.PageIndex == 1 ? "disabled" : "")">
                     <a class="page-link" @onclick="() => OnPageSelected(1)" tabindex="-1">
                         <span>&#8606;</span>
                     </a>
                 </li>
-                <li class="page-item  @(GridConfig.PageIndex == 1 ? "disabled" : "")">
-                    <a class="page-link" @onclick="() => OnPageSelected(GridConfig.PageIndex - 1)" tabindex="-1">
+                <li class="page-item  @(GridConfig.QueryResult.PageIndex == 1 ? "disabled" : "")">
+                    <a class="page-link" @onclick="() => OnPageSelected(GridConfig.QueryResult.PageIndex - 1)" tabindex="-1">
                         <span>&#8592;</span>
                     </a>
                 </li>
                 @foreach (var item in GetPageList())
                 {
-                    <li class="page-item @(item == GridConfig.PageIndex ? "" : "page-link-next")"><a class="page-link @(item == GridConfig.PageIndex ? "itemSelected" : "")" @onclick="() => OnPageSelected(item)">@item</a></li>
+                    <li class="page-item @(item == GridConfig.QueryResult.PageIndex ? "" : "page-link-next")"><a class="page-link @(item == GridConfig.QueryResult.PageIndex ? "itemSelected" : "")" @onclick="() => OnPageSelected(item)">@item</a></li>
                 }
-                <li class="page-item @(GridConfig.PageIndex == NumberOfPages ? "disabled" : "")">
-                    <a class="page-link" @onclick="() => OnPageSelected(GridConfig.PageIndex + 1)">
+                <li class="page-item @(GridConfig.QueryResult.PageIndex == NumberOfPages ? "disabled" : "")">
+                    <a class="page-link" @onclick="() => OnPageSelected(GridConfig.QueryResult.PageIndex + 1)">
                         <span>&#8594;</span>
                     </a>
                 </li>
-                <li class="page-item @(GridConfig.PageIndex == NumberOfPages ? "disabled" : "")">
+                <li class="page-item @(GridConfig.QueryResult.PageIndex == NumberOfPages ? "disabled" : "")">
                     <a class="page-link" @onclick="() => OnPageSelected(NumberOfPages)">
                         <span>&#8608;</span>
                         <span class="fa-arrow-right-to-bracket"></span>
                     </a>
                 </li>
-                <li class="page-item row-total"><a class="page-link">@($"{BlazorDic.Total}: {GridConfig.Total}")</a></li>
+                <li class="page-item row-total"><a class="page-link">@($"{BlazorDic.Total}: {GridConfig.QueryResult.Total}")</a></li>
                 <li class="page-item row-total"><a class="page-link">@($"{BlazorDic.Rows}:")</a></li>
-                <li class="page-item row-total"><a class="page-link @(10 == GridConfig.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(10)">10</a></li>
-                <li class="page-item row-total"><a class="page-link @(20 == GridConfig.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(20)">20</a></li>
-                <li class="page-item row-total"><a class="page-link @(50 == GridConfig.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(50)">50</a></li>
-                <li class="page-item row-total"><a class="page-link @(100 == GridConfig.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(100)">100</a></li>
-                <li class="page-item row-total"><a class="page-link @(GridConfig.Total == GridConfig.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(GridConfig.Total)">@BlazorDic.All</a></li>
+                <li class="page-item row-total"><a class="page-link @(10 == GridConfig.QueryResult.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(10)">10</a></li>
+                <li class="page-item row-total"><a class="page-link @(20 == GridConfig.QueryResult.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(20)">20</a></li>
+                <li class="page-item row-total"><a class="page-link @(50 == GridConfig.QueryResult.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(50)">50</a></li>
+                <li class="page-item row-total"><a class="page-link @(100 == GridConfig.QueryResult.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(100)">100</a></li>
+                <li class="page-item row-total"><a class="page-link @(GridConfig.QueryResult.Total == GridConfig.QueryResult.PageSize ? "itemSelected" : "")" @onclick="() => OnPageSizeSelected(GridConfig.QueryResult.Total)">@BlazorDic.All</a></li>
             </ul>
         </nav>
     </div>
