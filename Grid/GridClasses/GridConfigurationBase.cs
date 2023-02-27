@@ -24,12 +24,12 @@ namespace BlazorCommon.Grid
         public string ExcelFileName { get; set; }
 
 
-        private GridConfigurationBase() { }
+        private GridConfigurationBase() { QueryResult = new QueryResultBase(); }
 
         public static GridConfigurationBase GetInstance()
         {
             GridConfigurationBase GridConfig = new GridConfigurationBase();
-            GridConfig.QueryResult = GridConfig.GetSourceList();
+            GridConfig.QueryResult.GetSortedPage(GridConfig);
             GridConfig.ItemType = GridConfig.QueryResult.List.FirstOrDefault().GetType();
             GridConfig.GridTitle = GridConfig.SetGridTitle();
 
@@ -42,10 +42,7 @@ namespace BlazorCommon.Grid
             return GridConfig;
         }
 
-        public virtual IEnumerable<RowBase> GetList()
-        {
-            return Animal.GetAll();
-        }
+       
 
         public static async Task<GridConfigurationBase> GetInstanceAsync()
         {
@@ -62,111 +59,13 @@ namespace BlazorCommon.Grid
             return $"{ItemType.Name}{DateTime.Now.Date.ToShortDateString().Replace("/", "-")}.xlsx";
         }
 
-        private QueryResultBase PaginatedQueryResult()
-        {
-            QueryResult.Total = QueryResult.List.Count();
-            QueryResult.NotFilteredTotal =QueryResult.NotFilteredTotal == 0 ? QueryResult.Total: QueryResult.NotFilteredTotal;
-            QueryResult.List = QueryResult.List.Skip((QueryResult.PageIndex - 1) * QueryResult.PageSize).Take(QueryResult.PageSize);
-            return QueryResult;
-        }
-
-
-
-        public virtual QueryResultBase GetSortedPage(SortChangedEvent sort)
-        {            
-            
-            if (sort != null)
-            {
-                QueryResult.List = GetList();
-                PropertyInfo prop = ItemType.GetProperty(sort.SortId);
-                if (sort.Direction == SortDirection.Desc)
-                {
-                    QueryResult.List = QueryResult.List.OrderByDescending(x => prop.GetValue(x, null));
-                }
-                else
-                {
-                    QueryResult.List = QueryResult.List.OrderBy(x => prop.GetValue(x, null));
-                }
-                QueryResult.PageIndex = 1;
-                QueryResult = PaginatedQueryResult();
-            }
-            else
-                QueryResult = GetSourceList();
-
-            
-            return QueryResult;
-
-
-        }
-
-
         public virtual List<GridColumnBase> GetGridColumnBase()
         {
             List<PropertyInfo> baseProperties = new RowBase().GetType().GetProperties().ToList();
             List<PropertyInfo> props = ItemType.GetProperties().Where(x => !baseProperties.Any(s => s.Name == x.Name)).ToList();
             return props.Select(x => new GridColumnBase(x, props.IndexOf(x), KeyColumn)).ToList();
         }
-
-        public virtual QueryResultBase GetSourceList()
-        {
-            //first time
-            IEnumerable<RowBase> rows = new List<RowBase>();
-            if (QueryResult == null)
-            {
-                rows = GetList();
-                QueryResult = new QueryResultBase();
-                QueryResult.List = rows;                                
-                QueryResult.PageSize = 10;
-                QueryResult.PageIndex = 1;
-                return PaginatedQueryResult();
-            }
-            else
-            {
-                List<GridSearch> gridSearches = GridColumnBases.Select(x => x.GridSearch).Where(x => x != null).ToList();
-                if (!gridSearches.Any())
-                {
-                    QueryResult.List = GetList();
-                    return PaginatedQueryResult();
-                }
-                else
-                {
-                    rows = GetList();
-                    foreach (GridSearch search in gridSearches)
-                    {
-                        if (search.SearchPropType == PropertyType.datetime)
-                        {
-                            rows = search.GetFilteredByDateTimeInterval(rows);
-                            continue;
-                        }
-                        else if (search.SearchPropType == PropertyType.number)
-                        {
-                            switch (search.NumberSearchTypeSelected)
-                            {
-                                case NumberSelectionType.Greaterthan:
-                                    rows = search.GetGreaterThanValues(rows);
-                                    break;
-                                case NumberSelectionType.Lessthan:
-                                    rows = search.GetLessThanValues(rows);
-                                    break;
-                                case NumberSelectionType.Between:
-                                    rows = search.GetBetweenValues(rows);
-                                    break;
-                                default:
-                                    rows = search.GetEqualsValues(rows);
-                                    break;
-
-                            }
-                            continue;
-                        }
-                        rows = search.GetTextContains(rows);
-                    }
-                }
-                QueryResult.List = rows;                
-                return PaginatedQueryResult();
-            }
-
-        }
-
+        
 
         public async virtual Task<byte[]> DownloadExcel(IEnumerable<object> itemList)
         {

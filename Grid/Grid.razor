@@ -38,7 +38,7 @@
                                     }
                                   
                                 }                                
-                                <span @onclick="()=> SortColumn(gridColumn)">
+                                <span @onclick="()=> GridConfig.QueryResult.SortColumn(GridConfig, gridColumn)">
                                 @gridColumn.Name <span>@((MarkupString)gridColumn.SortSymbol)</span>
                                 </span>
                             </td>

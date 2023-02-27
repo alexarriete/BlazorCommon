@@ -7,8 +7,7 @@ namespace BlazorCommon.Grid
     {      
         [Parameter] public GridConfigurationBase GridConfig { get; set; }
         [Parameter] public Theme Theme { get; set; }
-        protected string ErrorMessage { get; set; }
-        private SortChangedEvent Sort { get; set; }
+        protected string ErrorMessage { get; set; }        
         public ModalGridSearch ModalGridSearch { get; set; }
         private bool Filtered { get; set; }
 
@@ -18,41 +17,12 @@ namespace BlazorCommon.Grid
             await base.OnInitializedAsync();
         }
 
-        protected void SortColumn(GridColumnBase thisColumn)
-        {
-            foreach (GridColumnBase gridColumn in GridConfig.GridColumnBases)
-            {
-                if (gridColumn == thisColumn)
-                {
-                    if (gridColumn.SortSymbol == "&#8593;")
-                    {
-                        gridColumn.SortSymbol = "";
-                        Sort = null;
-                    }
-                    else if (gridColumn.SortSymbol == "&#8595;")
-                    {
-                        gridColumn.SortSymbol = "&#8593;";
-                        Sort = new SortChangedEvent() { SortId = gridColumn.PropertyInfo.Name, Direction = SortDirection.Desc };
-                    }
-                    else
-                    {
-                        gridColumn.SortSymbol = "&#8595;";
-                        //Sort = new SortChangedEvent();
-                        Sort = new SortChangedEvent() { SortId = gridColumn.PropertyInfo.Name, Direction = SortDirection.Asc };
-                    }
-                }
-                else
-                {
-                    gridColumn.SortSymbol = "";
-                }
-            }            
-            GridConfig.QueryResult = GridConfig.GetSortedPage(Sort);
-        }
+        
 
 
         protected void OnPageChanged(GridConfigurationBase gridConfiguration)
         {
-            GridConfig.QueryResult = GridConfig.GetSortedPage(Sort);
+            GridConfig.QueryResult.GetSortedPage(gridConfiguration);
         }
 
 
@@ -101,7 +71,7 @@ namespace BlazorCommon.Grid
             if (result)
             {
                 Filtered = true;
-                GridConfig.QueryResult = GridConfig.GetSourceList();
+                GridConfig.QueryResult.GetSortedPage(GridConfig);
             }
             else
             {
@@ -112,7 +82,7 @@ namespace BlazorCommon.Grid
                 if (Filtered)
                 {
                     Filtered = false;
-                    GridConfig.QueryResult = GridConfig.GetSourceList();
+                    GridConfig.QueryResult.GetSortedPage(GridConfig);
                 }
             }
         }

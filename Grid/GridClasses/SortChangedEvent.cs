@@ -13,8 +13,7 @@ namespace BlazorCommon.Grid
         Desc = 2
     }
     public class SortChangedEvent
-    {
-        public string SortId { get; set; }
+    {        
         public SortDirection Direction { get; set; }
         public PropertyInfo Prop { get; set; }
     }

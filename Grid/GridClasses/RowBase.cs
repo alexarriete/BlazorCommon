@@ -17,8 +17,7 @@ namespace BlazorCommon.Grid
         Create
     }
     public class RowBase
-    {
-        [Inject]
+    {        
         public string RowBaseBackGroundColor { get; set; }
         public string RowBaseFontColor { get; set; }
         public string RowBaseId { get; set; }
@@ -54,13 +53,8 @@ namespace BlazorCommon.Grid
             else
             {
                 await jsHelper.RemoveSessionStorage("row");
-            }
-            
+            }            
         }
-
-        public async Task<object> GetRowAsync<T>(JsHelper jsHelper)
-        {
-            return await jsHelper.GetSessionStorage<T>("row");
-        }
+    
     }
 }
