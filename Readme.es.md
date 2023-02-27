@@ -27,7 +27,7 @@ using BlazorCommon.Grid;
 
 El grid es uno de los componentes más usados para mostrar información de una manera práctica. Es una parte del trabajo común a la mayoría de los desarrolladores. Es también un problema a la hora de mantener el código y el rendimiento de los proyectos. presentamos una opción simple y configurable.
 
-![Simple grid](./GridExample.jpg)
+![Getting Simple grid](wwwroot/img/Examples/GridExample.jpg)
 
 ##### Cómo implementarlo
 
@@ -150,7 +150,7 @@ La clase RowBase determina el comportamiento y la apariencia de las filas dentro
 
 Por defecto el grid implementa filtros y ordenación para todas sus columnas. Esto puede cambiarse en los parámetros que recibe el constructor de la clase GridColumnase. Ésta, a su vez, es inicializada en GridConfigurationBase, donde se puede sobreescribir el método que construye la anterior. Mucho lío, ¿no?. Mejor con un ejemplo.
 
-![Getting filter grid](./filter_example.jpg)
+![Getting filter grid](wwwroot/img/Examples/filter_example.jpg)
 
 ```csharp
 
