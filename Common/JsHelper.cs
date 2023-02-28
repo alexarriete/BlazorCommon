@@ -24,10 +24,6 @@ namespace BlazorCommon
 
         public IJSObjectReference jSObject { get; set; }
 
-
-
-     
-
         private async Task SetIJSObject()
         {
             if (jSObject == null)
@@ -77,6 +73,22 @@ namespace BlazorCommon
             await SetIJSObject();
             if (jSObject != null)
                 await jSObject.InvokeAsync<object>("InvokeClick", id);
+        }
+
+        public async Task<string> GetSelectedElement(string id)
+        {
+            await SetIJSObject();
+            if (jSObject != null)
+                return (await jSObject.InvokeAsync<object>("GetSelectedElement", id)).ToString();
+
+            return null;
+        }
+
+        public async Task SelectElement(string id)
+        {
+            await SetIJSObject();
+            if (jSObject != null)
+                await jSObject.InvokeVoidAsync("SelectElement", id);
         }
 
         private async Task CreateToast(string text, string style, string classes, int time, bool showButtonClose)

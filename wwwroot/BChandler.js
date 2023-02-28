@@ -84,4 +84,12 @@ export function ClearLocalStorage() {
     return localStorage.clear();
 }
 
+export function GetSelectedElement(id) {
+    var e = document.getElementById(id);
+    var aux = e.options[e.selectedIndex].text;
+    return aux;
+}
 
+export function SelectElement(element) {
+    element.selectedIndex = 0;
+}
