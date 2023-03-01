@@ -175,3 +175,5 @@ Por defecto el grid implementa filtros y ordenación para todas sus columnas. Es
 ## Conclusiones
 
 Sin mucho esfuerzo se puede cambiar el origen de datos del grid, pero hay muchas otras configuraciones que son imporantes, como el aspecto o los enlaces que se pueden añadir. Invitamos a que explore el código en el proyecto que podrá encontrar en [GitHub.](https://github.com/alexarriete/BlazorCommon)
+
+Puede encontrar algunos ejemplos en [acernuda.com](https://acernuda.com/software)
