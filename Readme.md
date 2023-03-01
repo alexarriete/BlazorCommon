@@ -172,4 +172,6 @@ By default the grid implements the filters and the ordering of all its columns. 
 
 ## Summary
 
-As you can see, it is enough to change the data source and that the objects in this list belong to a class derived from RowBase. There are many things that can be configured. We invite you to explore the complete code of the project in [GitHub.](https://github.com/alexarriete/BlazorCommon)
+As you can see, it is enough to change the data source and that the objects in this list belong to a class derived from RowBase. There are many things that can be configured. We invite you to explore the complete code of the project in [GitHub.](https://github.com/alexarriete/BlazorCommon). 
+
+Examples can be seen in [acernuda.com](https://acernuda.com/software)
