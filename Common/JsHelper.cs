@@ -40,12 +40,24 @@ namespace BlazorCommon
             }
         }
 
-        public async Task AddClassAsync(string selectedId, string className)
+        /// <summary>
+        /// Adds a class to an html element. One class each call.
+        /// </summary>
+        /// <param name="className">CSS class to add</param>
+        /// <param name="selectedId">Element id</param>
+        /// <returns></returns>
+        public async Task AddClassAsync(string className, string selectedId)
         {
             await SetIJSObject();
             if (jSObject != null)
                 await jSObject.InvokeAsync<object>("AddClass", selectedId, string.Join(" ", className));
         }
+        /// <summary>
+        /// Remove class from Html element. One class each call
+        /// </summary>
+        /// <param name="className">CSS class to remove</param>
+        /// <param name="id">Element id</param>
+        /// <returns></returns>
         public async Task RemoveClassAsync(string className, string id)
         {
             await SetIJSObject();
@@ -84,11 +96,11 @@ namespace BlazorCommon
             return null;
         }
 
-        public async Task SelectElement(string id)
+        public async Task SelectElement(ElementReference element)
         {
             await SetIJSObject();
             if (jSObject != null)
-                await jSObject.InvokeVoidAsync("SelectElement", id);
+                await jSObject.InvokeVoidAsync("SelectElement", element);
         }
 
         private async Task CreateToast(string text, string style, string classes, int time, bool showButtonClose)

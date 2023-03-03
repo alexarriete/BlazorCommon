@@ -44,7 +44,8 @@ export function RemoveClass(id, className) {
 }
 
 export function AddClass(id, className) {
-    var element = document.getElementById(id); element.classList.add(className);
+    var element = document.getElementById(id);    
+    element.classList.add(className);
 }
 
 export function GetTextbyId(id) {

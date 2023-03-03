@@ -45,15 +45,16 @@ namespace BlazorCommon
         public static IEnumerable<Animal> GetAll()
         {
             List<Animal> list = GetDummyAnimals();
-            DateTime min = list.Select(x => Convert.ToDateTime(x.Date)).Min();
-            DateTime max = list.Select(x => Convert.ToDateTime(x.Date)).Max();
+            IFormatProvider formatProvider = new CultureInfo("es-ES").DateTimeFormat;
+            DateTime min = list.Select(x => Convert.ToDateTime(x.Date, formatProvider)).Min();
+            DateTime max = list.Select(x => Convert.ToDateTime(x.Date, formatProvider)).Max();
             var media = (int)(max - min).TotalDays / 3;
             DateTime maxDatered = min.AddDays(media);
             DateTime maxDateAmber = min.AddDays(media * 2);
             DateTime maxDateGreen = max;
             foreach (var item in list)
             {
-                var date = Convert.ToDateTime(item.Date);
+                var date = Convert.ToDateTime(item.Date, formatProvider);
                 if (date < maxDatered)
                     item.Rag = "_content/BlazorCommon/img/Red.png";
                 else if (date < maxDateAmber)

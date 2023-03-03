@@ -160,4 +160,7 @@
   <data name="SearchAction" xml:space="preserve">
     <value>Los parámetros de búsqueda han cambiado.</value>
   </data>
+  <data name="Select" xml:space="preserve">
+    <value>Seleccione</value>
+  </data>
 </root>

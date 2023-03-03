@@ -1,0 +1,32 @@
+﻿@inherits MultipleSelectorBase
+
+@if (OptionElements != null)
+{
+    <div class="@DivClass">
+        @if (!string.IsNullOrWhiteSpace(Label))
+        {
+            <label class="control-label">@Label</label>
+        }
+        <select @ref="MySelect" class="form-select" id="slt" @onchange="OnChangeCitiesSelected">
+            <option value="0" style="display:none">@ListContainer</option>
+            @foreach (OptionElement optionElement in OptionElements)
+            {
+                <option value="@optionElement.Value" class="@((optionElement.Active? "unselected" : "selected"))">
+                    @optionElement.Name
+                </option>
+            }
+
+        </select>
+    </div>
+
+}
+
+<style>
+    .selected {
+        color: lightgray;
+    }
+
+    .unselected {
+        color: black
+    }
+</style>

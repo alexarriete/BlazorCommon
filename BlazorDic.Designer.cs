@@ -232,6 +232,15 @@ namespace BlazorCommon {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Select.
+        /// </summary>
+        internal static string Select {
+            get {
+                return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Insert Text.
         /// </summary>
         internal static string TextInsert {

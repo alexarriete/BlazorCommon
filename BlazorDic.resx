@@ -160,4 +160,7 @@
   <data name="SearchAction" xml:space="preserve">
     <value>Press Search to get fresh results</value>
   </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
 </root>
