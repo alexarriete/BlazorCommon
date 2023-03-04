@@ -95,28 +95,24 @@ namespace BlazorCommon
             int time = text.Length * 60;
             time = time < 3000 ? 3000 : time;
             int length = text.Length < 20 ? 300 : text.Length < 50 ? 450 : text.Length < 75 ? 700 : text.Length < 100 ? 900 : text.Length < 150 ? 1200 : 1500;
-            string style = "";
-            var classes = new List<string> { "alert", "alert-dismissable", "mt-4", "container" };
+            string style = $"width: 100%;";
+            var classes = new List<string> { "alert", "alert-dismissable", "mt-4", "container", "text-center" };
             switch (messageType)
             {
                 case MessageType.error:
-                    classes.Add("alert-danger");
-                    style = $"width: {length}px;height: 70px;";
+                    classes.Add("alert-danger");                    
                     text = $"&#9940; {text}";
                     break;
                 case MessageType.warning:
-                    classes.Add("alert-warning");
-                    style = $"width: {length}px;height: 70px;";
+                    classes.Add("alert-warning");                    
                     text = $"&#9889; {text}";
                     break;
                 case MessageType.success:
-                    classes.Add("alert-success");
-                    style = $"width: {length}px;height: 70px;";
+                    classes.Add("alert-success");                    
                     text = $"&#9989; {text}";
                     break;
                 case MessageType.info:
-                    classes.Add("alert-info");
-                    style = $"width: {length}px;height: 70px;";
+                    classes.Add("alert-info");                    
                     text = $"&#9200; {text}";
                     break;
             }

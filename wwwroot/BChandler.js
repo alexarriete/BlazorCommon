@@ -8,7 +8,7 @@ export function showPrompt(message) {
 export function CreateToast(message, style, classes, time, buttonText) {
     var toast = document.createElement('div');
     toast.id = "toasts";
-    toast.style.cssText = "position: fixed; bottom: 20px; right: 10px; display: flex; flex - direction: column; align - items: flex - end; "
+    toast.style.cssText = "position: fixed; bottom: 20px; display: flex; flex - direction: column; align - items: flex - end;width:100% "
 
     const notif = document.createElement("div");
     notif.style.cssText = style;
@@ -16,8 +16,8 @@ export function CreateToast(message, style, classes, time, buttonText) {
     notif.innerHTML = message;
     if (buttonText != "") {
         const button = document.createElement("button");
-        button.classList = "btn btn-primary text-right";
-        button.style.cssText = "float:right";
+        button.classList = "btn btn-primary";
+       // button.style.cssText = "float:right";
         button.onclick = function () { toast.remove(); };
         button.textContent = buttonText;
         notif.appendChild(button);
