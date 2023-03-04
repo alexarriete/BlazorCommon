@@ -33,7 +33,7 @@ namespace BlazorCommon
             await base.OnInitializedAsync();
         }
         /// <summary>
-        /// Show message. Botton right corner. 
+        /// Show message. Bottom. 
         /// </summary>
         /// <param name="messageType">error, success, warning, info</param>
         /// <param name="text">mesage text</param>
@@ -44,6 +44,19 @@ namespace BlazorCommon
             JsHelper jsHelper = new(jSRuntime);
             await jsHelper.SetToast(messageType, text, showButtonClose);
         }
+
+        /// <summary>
+        /// Show message. Bottom. 
+        /// </summary>        
+        /// <param name="text">mesage text</param>
+        /// <param name="url">A click into the component will redirect to this url (target=_blank)</param>
+        /// <returns></returns>
+        public async Task SetToastAds(string text, string url)
+        {
+            JsHelper jsHelper = new(jSRuntime);
+            await jsHelper.SetToast(MessageType.ads, text, false, url);
+        }
+
         /// <summary>
         /// Get element inner text by Id
         /// </summary>

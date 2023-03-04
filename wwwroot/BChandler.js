@@ -15,11 +15,11 @@ export function CreateToast(message, style, classes, time, buttonText) {
     notif.classList = classes;
     notif.innerHTML = message;
     if (buttonText != "") {
-        const button = document.createElement("button");
+        const button = document.createElement("span");
         button.classList = "btn btn-primary";
-       // button.style.cssText = "float:right";
+        button.style.cssText = "float:right";
         button.onclick = function () { toast.remove(); };
-        button.textContent = buttonText;
+        button.textContent = "x";
         notif.appendChild(button);
     } else {
         setTimeout(() => {
@@ -27,6 +27,39 @@ export function CreateToast(message, style, classes, time, buttonText) {
         }, time);
     }
     toast.appendChild(notif);
+    document.body.appendChild(toast);
+}
+
+export function CreateToastAds(message, style, classes, url) {
+    var toast = document.createElement('div');
+    toast.id = "toasts";
+    toast.style.cssText = "position: fixed; bottom: 20px; display: flex; flex - direction: column; align - items: flex - end;width:100% "
+        
+   
+
+    const notif = document.createElement("div");
+    notif.style.cssText = style;
+    notif.classList = classes;
+    const sp = document.createElement("span");
+    sp.innerHTML = message;
+    sp.style.cssText = "cursor:pointer";
+    sp.onclick = function () { window.open(url, '_blank'); toast.remove(); };
+    notif.appendChild(sp);
+
+    const button = document.createElement("span");
+    button.classList = "btn btn-default";
+    button.style.cssText = "float:right";
+    button.onclick = function () { toast.remove(); };
+    button.textContent = "x";
+    notif.appendChild(button);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 15000);
+
+    
+    toast.appendChild(notif);
+   // toast.appendChild(button);
     document.body.appendChild(toast);
 }
 
@@ -44,7 +77,7 @@ export function RemoveClass(id, className) {
 }
 
 export function AddClass(id, className) {
-    var element = document.getElementById(id);    
+    var element = document.getElementById(id);
     element.classList.add(className);
 }
 

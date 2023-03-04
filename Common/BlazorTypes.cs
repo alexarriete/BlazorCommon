@@ -11,7 +11,8 @@ namespace BlazorCommon
         error,
         warning,
         success,
-        info
+        info,
+        ads
         
     }
     public enum ModalType

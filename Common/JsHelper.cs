@@ -90,7 +90,17 @@ namespace BlazorCommon
 
         }
 
-        internal async Task SetToast(MessageType messageType, string text, bool showButtonClose)
+        private async Task CreateToastAds(string text, string style, string classes, string url)
+        {
+            await SetIJSObject();
+            if (jSObject != null)
+            {                
+                await jSObject.InvokeVoidAsync("CreateToastAds", text, style, classes, url);
+            }
+
+        }
+
+        internal async Task SetToast(MessageType messageType, string text, bool showButtonClose, string url= null)
         {
             int time = text.Length * 60;
             time = time < 3000 ? 3000 : time;
@@ -100,23 +110,30 @@ namespace BlazorCommon
             switch (messageType)
             {
                 case MessageType.error:
-                    classes.Add("alert-danger");                    
+                    classes.Add("alert-danger");
                     text = $"&#9940; {text}";
                     break;
                 case MessageType.warning:
-                    classes.Add("alert-warning");                    
+                    classes.Add("alert-warning");
                     text = $"&#9889; {text}";
                     break;
                 case MessageType.success:
-                    classes.Add("alert-success");                    
+                    classes.Add("alert-success");
                     text = $"&#9989; {text}";
                     break;
                 case MessageType.info:
-                    classes.Add("alert-info");                    
+                    classes.Add("alert-info");
                     text = $"&#9200; {text}";
                     break;
+                case MessageType.ads:                                        
+                    style = $"{style} Background-color:white; border-color:green";
+                    break;
             }
-            await CreateToast(text, style, string.Join(" ", classes), time, showButtonClose);
+
+            if (messageType == MessageType.ads)
+                await CreateToastAds(text, style, string.Join(" ", classes), url);
+            else
+                await CreateToast(text, style, string.Join(" ", classes), time, showButtonClose);
         }
 
 
@@ -228,7 +245,7 @@ namespace BlazorCommon
         {
             await SetIJSObject();
             if (jSObject != null)
-            {                
+            {
                 var objResult = (await jSObject.InvokeAsync<object>("GetClasses", id));
                 if (objResult != null)
                 {
@@ -279,7 +296,7 @@ namespace BlazorCommon
             else
             {
                 await RemoveClassAsync(className, id);
-            }            
+            }
         }
 
     }
