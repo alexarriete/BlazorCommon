@@ -94,3 +94,9 @@ export function GetSelectedElement(id) {
 export function SelectElement(element) {
     element.selectedIndex = 0;
 }
+
+export function GetClasses(id) {
+    var e = document.getElementById(id);
+    return e.classList;
+}
+

@@ -40,30 +40,6 @@ namespace BlazorCommon
             }
         }
 
-        /// <summary>
-        /// Adds a class to an html element. One class each call.
-        /// </summary>
-        /// <param name="className">CSS class to add</param>
-        /// <param name="selectedId">Element id</param>
-        /// <returns></returns>
-        public async Task AddClassAsync(string className, string selectedId)
-        {
-            await SetIJSObject();
-            if (jSObject != null)
-                await jSObject.InvokeAsync<object>("AddClass", selectedId, string.Join(" ", className));
-        }
-        /// <summary>
-        /// Remove class from Html element. One class each call
-        /// </summary>
-        /// <param name="className">CSS class to remove</param>
-        /// <param name="id">Element id</param>
-        /// <returns></returns>
-        public async Task RemoveClassAsync(string className, string id)
-        {
-            await SetIJSObject();
-            if (jSObject != null)
-                await jSObject.InvokeAsync<object>("RemoveClass", id, className);
-        }
         public async Task<string> JsGetTextById(string id)
         {
             await SetIJSObject();
@@ -111,10 +87,10 @@ namespace BlazorCommon
                 string buttonText = showButtonClose ? BlazorDic.Accept : "";
                 await jSObject.InvokeVoidAsync("CreateToast", text, style, classes, time, buttonText);
             }
-                
+
         }
-        
-        internal async Task SetToast(MessageType messageType, string text,bool showButtonClose)
+
+        internal async Task SetToast(MessageType messageType, string text, bool showButtonClose)
         {
             int time = text.Length * 60;
             time = time < 3000 ? 3000 : time;
@@ -125,17 +101,17 @@ namespace BlazorCommon
             {
                 case MessageType.error:
                     classes.Add("alert-danger");
-                    style = $"width: {length}px;height: 70px;";                    
+                    style = $"width: {length}px;height: 70px;";
                     text = $"&#9940; {text}";
                     break;
                 case MessageType.warning:
                     classes.Add("alert-warning");
-                    style = $"width: {length}px;height: 70px;";                    
+                    style = $"width: {length}px;height: 70px;";
                     text = $"&#9889; {text}";
                     break;
                 case MessageType.success:
                     classes.Add("alert-success");
-                    style = $"width: {length}px;height: 70px;";                    
+                    style = $"width: {length}px;height: 70px;";
                     text = $"&#9989; {text}";
                     break;
                 case MessageType.info:
@@ -144,10 +120,10 @@ namespace BlazorCommon
                     text = $"&#9200; {text}";
                     break;
             }
-            await CreateToast(text, style, string.Join(" ",classes), time, showButtonClose);
+            await CreateToast(text, style, string.Join(" ", classes), time, showButtonClose);
         }
 
-       
+
         public async Task SetSessionStorage(string key, object obj)
         {
             await SetIJSObject();
@@ -171,7 +147,7 @@ namespace BlazorCommon
 
         public async Task RemoveSessionStorage(string key)
         {
-            await SetIJSObject();            
+            await SetIJSObject();
             if (jSObject != null)
                 await jSObject.InvokeVoidAsync("RemoveSessionStorage", key);
         }
@@ -217,11 +193,6 @@ namespace BlazorCommon
                 await jSObject.InvokeVoidAsync("ClearLocalStorage");
         }
 
-
-
-
-
-
         public async ValueTask<bool> ConfirmAsync(string message)
         {
             await SetIJSObject();
@@ -233,8 +204,6 @@ namespace BlazorCommon
             await SetIJSObject();
             return await jSObject.InvokeAsync<bool>("alert", message);
         }
-
-
 
         public async ValueTask<string> DownloadExcelAsync(byte[] bytes, string fileName)
         {
@@ -254,7 +223,68 @@ namespace BlazorCommon
             }
 
         }
+        /// <summary>
+        /// Get all classes from an Element
+        /// </summary>
+        /// <param name="id">HtmlId</param>
+        /// <returns>List of strings</returns>
+        public async Task<List<string>> GetClasses(string id)
+        {
+            await SetIJSObject();
+            if (jSObject != null)
+            {                
+                var objResult = (await jSObject.InvokeAsync<object>("GetClasses", id));
+                if (objResult != null)
+                {
+                    var parsedResult = JsonDocument.Parse(objResult.ToString());
+                    return parsedResult.RootElement.EnumerateObject().Select(n => n.Value.ToString()).ToList();
+                }
+            }
+            return null;
+        }
 
+        /// <summary>
+        /// Adds a class to an html element. One class each call.
+        /// </summary>
+        /// <param name="className">CSS class to add</param>
+        /// <param name="selectedId">Element id</param>
+        /// <returns></returns>
+        public async Task AddClassAsync(string className, string selectedId)
+        {
+            await SetIJSObject();
+            if (jSObject != null)
+                await jSObject.InvokeAsync<object>("AddClass", selectedId, string.Join(" ", className));
+        }
+        /// <summary>
+        /// Remove class from Html element. One class each call
+        /// </summary>
+        /// <param name="className">CSS class to remove</param>
+        /// <param name="id">Element id</param>
+        /// <returns></returns>
+        public async Task RemoveClassAsync(string className, string id)
+        {
+            await SetIJSObject();
+            if (jSObject != null)
+                await jSObject.InvokeAsync<object>("RemoveClass", id, className);
+        }
+        /// <summary>
+        /// Removes or adds a CSS Clas to an Element
+        /// </summary>
+        /// <param name="className">Class Name</param>
+        /// <param name="id">Element Id</param>
+        /// <returns></returns>
+        public async Task TogleClassAsync(string className, string id)
+        {
+            bool exists = (await GetClasses(id)).Any(x => x == className);
+            if (!exists)
+            {
+                await AddClassAsync(className, id);
+            }
+            else
+            {
+                await RemoveClassAsync(className, id);
+            }            
+        }
 
     }
 }
