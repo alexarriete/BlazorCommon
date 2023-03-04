@@ -33,7 +33,7 @@ namespace BlazorCommon
             await base.OnInitializedAsync();
         }
         /// <summary>
-        /// Show message. Botton right corner. 
+        /// Show message. Bottom. 
         /// </summary>
         /// <param name="messageType">error, success, warning, info</param>
         /// <param name="text">mesage text</param>
@@ -44,6 +44,19 @@ namespace BlazorCommon
             JsHelper jsHelper = new(jSRuntime);
             await jsHelper.SetToast(messageType, text, showButtonClose);
         }
+
+        /// <summary>
+        /// Show message. Bottom. 
+        /// </summary>        
+        /// <param name="text">mesage text</param>
+        /// <param name="url">A click into the component will redirect to this url (target=_blank)</param>
+        /// <returns></returns>
+        public async Task SetToastAds(string text, string url)
+        {
+            JsHelper jsHelper = new(jSRuntime);
+            await jsHelper.SetToast(MessageType.ads, text, false, url);
+        }
+
         /// <summary>
         /// Get element inner text by Id
         /// </summary>
@@ -55,8 +68,9 @@ namespace BlazorCommon
             return await jsHelper.JsGetTextById(id);
         }
 
-        #region session and local storage
         public async Task<string> SetTextById(string id, string text) { JsHelper jsHelper = new(jSRuntime); return await jsHelper.JsSetTextById(id, text); }
+
+        #region session and local storage
         public async Task SetSessionStorage(string key, object obj) { JsHelper jsHelper = new(jSRuntime); await jsHelper.SetSessionStorage(key, obj); }
         public async Task<T> GetSessionStorage<T>(string key) { JsHelper jsHelper = new(jSRuntime); return await jsHelper.GetSessionStorage<T>(key); }
         public async Task RemoveSessionStorage(string key) { JsHelper jsHelper = new(jSRuntime); await jsHelper.RemoveSessionStorage(key); }
@@ -101,6 +115,14 @@ namespace BlazorCommon
                 await jSRuntime.InvokeVoidAsync("open", url, "_blank");
             return exists;
         }
+        #endregion
+
+        #region CSS Classes
+        public async Task AddClassAsync(string className, string id) { JsHelper jsHelper = new(jSRuntime); await jsHelper.AddClassAsync(className, id); }
+        public async Task RemoveClassAsync(string className, string id) { JsHelper jsHelper = new(jSRuntime); await jsHelper.RemoveClassAsync(className, id); }
+        public async Task TogleClassAsync(string className, string id) { JsHelper jsHelper = new(jSRuntime); await jsHelper.TogleClassAsync(className, id); }
+        public async Task<List<string>> GetClasses(string id) { JsHelper jsHelper = new(jSRuntime); return await jsHelper.GetClasses(id); }
+
         #endregion
     }
 }

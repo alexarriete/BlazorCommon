@@ -40,30 +40,6 @@ namespace BlazorCommon
             }
         }
 
-        /// <summary>
-        /// Adds a class to an html element. One class each call.
-        /// </summary>
-        /// <param name="className">CSS class to add</param>
-        /// <param name="selectedId">Element id</param>
-        /// <returns></returns>
-        public async Task AddClassAsync(string className, string selectedId)
-        {
-            await SetIJSObject();
-            if (jSObject != null)
-                await jSObject.InvokeAsync<object>("AddClass", selectedId, string.Join(" ", className));
-        }
-        /// <summary>
-        /// Remove class from Html element. One class each call
-        /// </summary>
-        /// <param name="className">CSS class to remove</param>
-        /// <param name="id">Element id</param>
-        /// <returns></returns>
-        public async Task RemoveClassAsync(string className, string id)
-        {
-            await SetIJSObject();
-            if (jSObject != null)
-                await jSObject.InvokeAsync<object>("RemoveClass", id, className);
-        }
         public async Task<string> JsGetTextById(string id)
         {
             await SetIJSObject();
@@ -111,43 +87,56 @@ namespace BlazorCommon
                 string buttonText = showButtonClose ? BlazorDic.Accept : "";
                 await jSObject.InvokeVoidAsync("CreateToast", text, style, classes, time, buttonText);
             }
-                
+
         }
-        
-        internal async Task SetToast(MessageType messageType, string text,bool showButtonClose)
+
+        private async Task CreateToastAds(string text, string style, string classes, string url)
+        {
+            await SetIJSObject();
+            if (jSObject != null)
+            {                
+                await jSObject.InvokeVoidAsync("CreateToastAds", text, style, classes, url);
+            }
+
+        }
+
+        internal async Task SetToast(MessageType messageType, string text, bool showButtonClose, string url= null)
         {
             int time = text.Length * 60;
             time = time < 3000 ? 3000 : time;
             int length = text.Length < 20 ? 300 : text.Length < 50 ? 450 : text.Length < 75 ? 700 : text.Length < 100 ? 900 : text.Length < 150 ? 1200 : 1500;
-            string style = "";
-            var classes = new List<string> { "alert", "alert-dismissable", "mt-4", "container" };
+            string style = $"width: 100%;";
+            var classes = new List<string> { "alert", "alert-dismissable", "mt-4", "container", "text-center" };
             switch (messageType)
             {
                 case MessageType.error:
                     classes.Add("alert-danger");
-                    style = $"width: {length}px;height: 70px;";                    
                     text = $"&#9940; {text}";
                     break;
                 case MessageType.warning:
                     classes.Add("alert-warning");
-                    style = $"width: {length}px;height: 70px;";                    
                     text = $"&#9889; {text}";
                     break;
                 case MessageType.success:
                     classes.Add("alert-success");
-                    style = $"width: {length}px;height: 70px;";                    
                     text = $"&#9989; {text}";
                     break;
                 case MessageType.info:
                     classes.Add("alert-info");
-                    style = $"width: {length}px;height: 70px;";
                     text = $"&#9200; {text}";
                     break;
+                case MessageType.ads:                                        
+                    style = $"{style} Background-color:white; border-color:green";
+                    break;
             }
-            await CreateToast(text, style, string.Join(" ",classes), time, showButtonClose);
+
+            if (messageType == MessageType.ads)
+                await CreateToastAds(text, style, string.Join(" ", classes), url);
+            else
+                await CreateToast(text, style, string.Join(" ", classes), time, showButtonClose);
         }
 
-       
+
         public async Task SetSessionStorage(string key, object obj)
         {
             await SetIJSObject();
@@ -171,7 +160,7 @@ namespace BlazorCommon
 
         public async Task RemoveSessionStorage(string key)
         {
-            await SetIJSObject();            
+            await SetIJSObject();
             if (jSObject != null)
                 await jSObject.InvokeVoidAsync("RemoveSessionStorage", key);
         }
@@ -217,11 +206,6 @@ namespace BlazorCommon
                 await jSObject.InvokeVoidAsync("ClearLocalStorage");
         }
 
-
-
-
-
-
         public async ValueTask<bool> ConfirmAsync(string message)
         {
             await SetIJSObject();
@@ -233,8 +217,6 @@ namespace BlazorCommon
             await SetIJSObject();
             return await jSObject.InvokeAsync<bool>("alert", message);
         }
-
-
 
         public async ValueTask<string> DownloadExcelAsync(byte[] bytes, string fileName)
         {
@@ -254,7 +236,68 @@ namespace BlazorCommon
             }
 
         }
+        /// <summary>
+        /// Get all classes from an Element
+        /// </summary>
+        /// <param name="id">HtmlId</param>
+        /// <returns>List of strings</returns>
+        public async Task<List<string>> GetClasses(string id)
+        {
+            await SetIJSObject();
+            if (jSObject != null)
+            {
+                var objResult = (await jSObject.InvokeAsync<object>("GetClasses", id));
+                if (objResult != null)
+                {
+                    var parsedResult = JsonDocument.Parse(objResult.ToString());
+                    return parsedResult.RootElement.EnumerateObject().Select(n => n.Value.ToString()).ToList();
+                }
+            }
+            return null;
+        }
 
+        /// <summary>
+        /// Adds a class to an html element. One class each call.
+        /// </summary>
+        /// <param name="className">CSS class to add</param>
+        /// <param name="selectedId">Element id</param>
+        /// <returns></returns>
+        public async Task AddClassAsync(string className, string selectedId)
+        {
+            await SetIJSObject();
+            if (jSObject != null)
+                await jSObject.InvokeAsync<object>("AddClass", selectedId, string.Join(" ", className));
+        }
+        /// <summary>
+        /// Remove class from Html element. One class each call
+        /// </summary>
+        /// <param name="className">CSS class to remove</param>
+        /// <param name="id">Element id</param>
+        /// <returns></returns>
+        public async Task RemoveClassAsync(string className, string id)
+        {
+            await SetIJSObject();
+            if (jSObject != null)
+                await jSObject.InvokeAsync<object>("RemoveClass", id, className);
+        }
+        /// <summary>
+        /// Removes or adds a CSS Clas to an Element
+        /// </summary>
+        /// <param name="className">Class Name</param>
+        /// <param name="id">Element Id</param>
+        /// <returns></returns>
+        public async Task TogleClassAsync(string className, string id)
+        {
+            bool exists = (await GetClasses(id)).Any(x => x == className);
+            if (!exists)
+            {
+                await AddClassAsync(className, id);
+            }
+            else
+            {
+                await RemoveClassAsync(className, id);
+            }
+        }
 
     }
 }
