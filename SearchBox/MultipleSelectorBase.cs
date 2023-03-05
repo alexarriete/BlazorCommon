@@ -1,5 +1,4 @@
-﻿using BlazorCommon.Dummy;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;

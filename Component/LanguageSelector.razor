@@ -1,0 +1,34 @@
+﻿@if (Languages != null && Languages.Count() > 1)
+{
+    <p>
+        @foreach (var item in Languages)
+        {
+            <a @onclick='()=>ChangeLang(item.Name)' style="margin-right: 1em"><img style="cursor:pointer" src="@(GetUrl(item))" alt="en tag"></a>
+        }
+
+
+    </p>
+}
+
+
+@code {
+    
+    [Parameter] public EventCallback<string> LangChanged { get; set; }
+    [Parameter] public List<LanguageItem> Languages { get; set; }
+    
+    private string url { get; set; }
+    protected override async Task OnInitializedAsync()
+    {           
+        await base.OnInitializedAsync();
+    }
+
+    private async Task ChangeLang(string lang)
+    {
+        await LangChanged.InvokeAsync(lang);
+    }
+    private string GetUrl(LanguageItem lang)
+    {
+        lang.Color ??= "red";
+        return $"https://img.shields.io/badge/lang-{lang.Name}-{lang.Color}.svg";
+    }
+}
