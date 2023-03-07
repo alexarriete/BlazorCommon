@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Text;
 using DocumentFormat.OpenXml.Wordprocessing;
 using BlazorCommon.Grid;
+using BlazorCommon.SearchBox;
 
 namespace BlazorCommon
 {
@@ -56,11 +57,11 @@ namespace BlazorCommon
             {
                 var date = Convert.ToDateTime(item.Date, formatProvider);
                 if (date < maxDatered)
-                    item.Rag = "_content/BlazorCommon/img/Red.png";
+                    item.Rag = BcTraficLight.UrlRed;
                 else if (date < maxDateAmber)
-                    item.Rag = "_content/BlazorCommon/img/Amber.png";
+                    item.Rag = BcTraficLight.UrlAmber;
                 else
-                    item.Rag = "_content/BlazorCommon/img/Green.png";
+                    item.Rag = BcTraficLight.UrlGreen;
             }
             return list;
         }

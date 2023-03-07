@@ -62,7 +62,7 @@ namespace BlazorCommon.Grid
 
         protected void SetRagFilter(int code)
         {
-            string text = ((RagColor)code).ToString();
+            string text = ((TrafficlightColor)code).ToString();
             GridSearch.SearchText = text;
         }
 

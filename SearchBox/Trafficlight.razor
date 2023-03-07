@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components;
 @using Microsoft.AspNetCore.Components.Forms;
-@inherits RagSearchBase
+@inherits TrafficlightBase
 
 
 <div class="@DivClass">
@@ -11,14 +11,14 @@
     <div class="row">
         <EditForm Model="RagCode">
             <InputRadioGroup Name="RagFilter" @bind-Value="RagCode">
-                <InputRadio Name="RagFilter" Value="(int)RagColor.Green" id="green" @attributes="Attributes" />
-                <label class="btn input-circle circle-green @IsSelected((int)RagColor.Green)" for="green"></label>
+                <InputRadio Name="RagFilter" Value="(int)TrafficlightColor.Green" id="green" @attributes="Attributes" />
+                <label class="btn input-circle circle-green @IsSelected((int)TrafficlightColor.Green)" for="green"></label>
 
-                <InputRadio Name="RagFilter" Value="(int)RagColor.Amber" id="amber" @attributes="Attributes" />
-                <label class="btn input-circle circle-amber @IsSelected((int)RagColor.Amber)" for="amber"></label>
+                <InputRadio Name="RagFilter" Value="(int)TrafficlightColor.Amber" id="amber" @attributes="Attributes" />
+                <label class="btn input-circle circle-amber @IsSelected((int)TrafficlightColor.Amber)" for="amber"></label>
 
-                <InputRadio Name="RagFilter" Value="(int)RagColor.Red" id="red" @attributes="Attributes" />
-                <label class="btn input-circle circle-red @IsSelected((int)RagColor.Red)" for="red"></label>
+                <InputRadio Name="RagFilter" Value="(int)TrafficlightColor.Red" id="red" @attributes="Attributes" />
+                <label class="btn input-circle circle-red @IsSelected((int)TrafficlightColor.Red)" for="red"></label>
 
             </InputRadioGroup>
         </EditForm>
