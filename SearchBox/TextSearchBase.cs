@@ -11,21 +11,26 @@ using System.Xml.Linq;
 
 namespace BlazorCommon.SearchBox
 {
+    public enum InputType
+    {
+        text,
+        number
+    }
     public class TextSearchBase : HtmlComponentBase
     {
-        [Parameter] public string Label { get; set; }
-        [Parameter] public string Placeholder { get; set; }
-        [Parameter] public string InputType { get; set; }
-        [Parameter] public List<Tuple<int, string>> Elements { get; set; }
-        protected List<Tuple<int, string>> SelectedElements { get; set; }        
+        [Parameter] public string? Label { get; set; }
+        [Parameter] public string? Placeholder { get; set; }
+        [Parameter] public InputType InputType { get; set; }
+        [Parameter] public List<OptionElement>? Elements { get; set; }
+        protected List<OptionElement>? SelectedElements { get; set; }        
         [Parameter] public EventCallback<int> ElementIdChanged { get; set; }
         [Parameter] public EventCallback<string> TextChanged { get; set; }
         [Parameter] public EventCallback<bool> EnabledButtonSearchChanged { get; set; }
-        [Parameter] public string DivClass { get; set; }        
-        [Parameter] public string Text { get; set; }
+        [Parameter] public string? DivClass { get; set; }        
+        [Parameter] public string? Text { get; set; }
         [Parameter] public int MinNumber { get; set; }
         [Parameter] public int MaxNumber { get; set; }
-        protected string RandomId { get; set; }
+        protected string? RandomId { get; set; }
         protected bool SelectedText { get; set; }
         
 
@@ -37,8 +42,7 @@ namespace BlazorCommon.SearchBox
                 MaxNumber = int.MaxValue;
             }
                 
-
-            InputType = string.IsNullOrEmpty(InputType) ? "text" : InputType;         
+                        
             RandomId = GetRandomId();
             await base.OnInitializedAsync();
         }
@@ -48,14 +52,15 @@ namespace BlazorCommon.SearchBox
         }
         public async Task OnChangeTextBox(EventArgs e, string id)
         {            
-            string text = await GetTextById(id);
+            Text = await GetTextById(id);
             if(Elements != null && Elements.Count > 0)
             {
-                text = text.RemoveDiacritics(true);
-                SelectedElements = Elements.Where(x => x.Item2.RemoveDiacritics(true) == text).ToList();
+                var text = Text.RemoveDiacritics(true);
+                SelectedElements = Elements.Where(x => x.Name.RemoveDiacritics(true).Contains(text)).ToList();
             }    
-            await TextChanged.InvokeAsync(text);
+            await TextChanged.InvokeAsync(Text);
             await EnabledButtonSearchChanged.InvokeAsync(true);
+           
         }
      
         protected async Task ResetValue()
@@ -65,11 +70,13 @@ namespace BlazorCommon.SearchBox
             SelectedText= false;
         }
 
-        public async Task SelectTupleAsync(Tuple<int, string> tObj)
+        public async Task SelectOptionElementAsync(OptionElement tObj)
         {
-            await SetTextById(RandomId, tObj.Item2);
-            await TextChanged.InvokeAsync(tObj.Item2);
-            await ElementIdChanged.InvokeAsync(tObj.Item1);
+            SelectedText = true;
+            Text = tObj.Name;
+            await SetTextById(RandomId, tObj.Name);
+            await TextChanged.InvokeAsync(tObj.Name);
+            await ElementIdChanged.InvokeAsync(tObj.Value);
             await EnabledButtonSearchChanged.InvokeAsync(true);
 
         }

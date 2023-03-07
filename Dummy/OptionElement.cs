@@ -21,5 +21,20 @@ namespace BlazorCommon
 
             return optionElements.OrderBy(x => x.Name).ToList();
         }
+
+        public static List<OptionElement> GetSearchTextBoxElements()
+        {
+            List<OptionElement> optionElements = new List<OptionElement>();
+            int counter = 1;
+            foreach (var item in Animal.GetAll())
+            {
+                OptionElement element = new OptionElement() { Value = counter, Name = item.Name, Active = true};
+                counter++;
+                optionElements.Add(element);
+            }
+
+
+            return optionElements.OrderBy(x => x.Name).ToList();
+        }
     }
 }

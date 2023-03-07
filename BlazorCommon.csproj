@@ -7,7 +7,7 @@
 		<Title>BlazorCommon</Title>
 		<Description>RCL with Blazor components</Description>
 		<PackageProjectUrl>https://blazorcommon.acernuda.com</PackageProjectUrl>
-		<PackageReleaseNotes>Language selector</PackageReleaseNotes>
+		<PackageReleaseNotes>Search box issues and improvements</PackageReleaseNotes>
 		
 		<AssemblyVersion>1.1.2</AssemblyVersion>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -17,7 +17,7 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<RepositoryUrl>https://github.com/alexarriete/BlazorCommon</RepositoryUrl>
 		<PackageReadmeFile>Readme.md</PackageReadmeFile>
-		<Version>1.1.7</Version>
+		<Version>1.1.8</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

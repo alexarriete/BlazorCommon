@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components;
 @using Microsoft.AspNetCore.Components.Forms;
+@using SearchBox
 @inherits ModalGridSearchBase
 
 <BlazorCommon.Modal.ModalTemplate @ref="ModalTemplate" Title="@BlazorDic.ColumnFilter" HeaderClass="theme">
@@ -18,13 +19,13 @@
                 {
                     @if (GridSearch.NumberSearchTypeSelected != NumberSelectionType.Between)
                     {
-                        <BlazorCommon.SearchBox.TextSearch Placeholder="@BlazorDic.NumberInsert" DivClass="col-12" TextChanged="SetTextFilter" InputType="number" />
+                        <BlazorCommon.SearchBox.TextSearch Placeholder="@BlazorDic.NumberInsert" DivClass="col-12" TextChanged="SetTextFilter" InputType="InputType.number" />
                     }
                     else
                     {
                         <div class="row">
-                            <BlazorCommon.SearchBox.TextSearch Placeholder="@BlazorDic.Greaterthan" DivClass="col-6" @bind-Text="@GridSearch.SearchText" InputType="number" />
-                            <BlazorCommon.SearchBox.TextSearch Placeholder="@BlazorDic.Lessthan" DivClass="col-6" @bind-Text="@GridSearch.SearchText2" InputType="number" />                            
+                            <BlazorCommon.SearchBox.TextSearch Placeholder="@BlazorDic.Greaterthan" DivClass="col-6" @bind-Text="@GridSearch.SearchText" InputType="InputType.number" />
+                            <BlazorCommon.SearchBox.TextSearch Placeholder="@BlazorDic.Lessthan" DivClass="col-6" @bind-Text="@GridSearch.SearchText2" InputType="InputType.number" />
                         </div>
                     }
                     <form class="form-inline text-center">

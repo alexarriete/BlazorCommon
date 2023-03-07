@@ -7,7 +7,7 @@
         <label class="control-label">@Label</label>
     }
     <div class="input-group">
-        <input type="@InputType" id="@RandomId" class="form-control" placeholder="@Placeholder" min="@MinNumber" max="@MaxNumber"
+        <input type="@InputType.ToString()" id="@RandomId" class="form-control" placeholder="@Placeholder" min="@MinNumber" max="@MaxNumber"
                @bind-value="@Text" @onkeydown='@(e=>OnChangeTextBox(e, RandomId))' @onclick='()=>ResetValue()' @onpaste='@(e=>OnChangeTextBox(e, RandomId))' />
 
         @if (!string.IsNullOrWhiteSpace(Text) && Text.Length < 3 && Elements != null && Elements.Any())
@@ -17,9 +17,9 @@
         @if (!string.IsNullOrWhiteSpace(Text) && Text.Length > 2 && !SelectedText && SelectedElements != null)
         {
             <div class="float-options">
-                @foreach (Tuple<int, string> element in SelectedElements)
+                @foreach (OptionElement element in SelectedElements)
                 {
-                    <span class="btn btn-block form-control" @onclick="()=>SelectTupleAsync(element)">@element.Item2</span>
+                    <span class="btn btn-block btn-light form-control" @onclick="()=>SelectOptionElementAsync(element)">@element.Name</span>
                 }
             </div>
         }
@@ -32,7 +32,7 @@
         max-height: 185px;
         overflow-y: auto;
         position: absolute;
-        top: 35px;
+        top: 40px;
         z-index: 10;
         background: white;
         border-radius: 3px;
