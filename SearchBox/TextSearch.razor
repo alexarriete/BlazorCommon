@@ -10,10 +10,7 @@
         <input type="@InputType.ToString()" id="@RandomId" class="form-control" placeholder="@Placeholder" min="@MinNumber" max="@MaxNumber"
                @bind-value="@Text" @onkeydown='@(e=>OnChangeTextBox(e, RandomId))' @onclick='()=>ResetValue()' @onpaste='@(e=>OnChangeTextBox(e, RandomId))' />
 
-        @if (!string.IsNullOrWhiteSpace(Text) && Text.Length < 3 && Elements != null && Elements.Any())
-        {
-            <span style="color:brown">MinNumberOfCharacters (3)</span>
-        }
+       
         @if (!string.IsNullOrWhiteSpace(Text) && Text.Length > 2 && !SelectedText && SelectedElements != null)
         {
             <div class="float-options">

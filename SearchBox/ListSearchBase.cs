@@ -11,11 +11,11 @@ namespace BlazorCommon.SearchBox
     public class ListSearchBase : HtmlComponentBase
     {
         [Parameter] public string Label { get; set; }
-        [Parameter] public List<Tuple<int, string>> Elements { get; set; }
+        [Parameter] public List<OptionElement> Elements { get; set; }
         private int elementId { get; set; }
         public int ElementId { get { return elementId; } set { elementId = value; _=ElementChangeAsync(); } }
-        [Parameter] public EventCallback<int> ElementIdChanged { get; set; }
-        [Parameter] public EventCallback<string> ElementTextChanged { get; set; }
+        [Parameter] public EventCallback<OptionElement> ElementSelected { get; set; }
+        
         [Parameter] public EventCallback<bool> EnabledButtonSearchChanged { get; set; }       
         [Parameter] public string DivClass { get; set; }
 
@@ -26,9 +26,8 @@ namespace BlazorCommon.SearchBox
 
         private async Task ElementChangeAsync()
         {
-            var element = Elements.FirstOrDefault(x=>x.Item1 == ElementId);
-            await ElementIdChanged.InvokeAsync(ElementId);
-            await ElementTextChanged.InvokeAsync(element.Item2);
+            var element = Elements.FirstOrDefault(x=>x.Value == ElementId);
+            await ElementSelected.InvokeAsync(element);            
             await EnabledButtonSearchChanged.InvokeAsync(true);
         }
 

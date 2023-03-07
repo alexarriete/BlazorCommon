@@ -11,15 +11,15 @@
         <div class="input-group">
 
             <select @bind="ElementId" class="form-select" id="monthSelectedId">                
-                @foreach (Tuple<int,string> element in Elements)
+                @foreach (OptionElement element in Elements)
                 {
-                    if (ElementId == element.Item1)
+                    if (ElementId == element.Value)
                     {
-                        <option value="@element.Item1" selected> @element.Item2</option>
+                        <option value="@element.Value" selected> @element.Name</option>
                     }
                     else
                     {
-                        <option value="@element.Item1"> @element.Item2</option>
+                        <option value="@element.Value"> @element.Name</option>
                     }
 
                 }
