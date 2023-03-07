@@ -48,9 +48,7 @@ namespace BlazorCommon.SearchBox
             ListContainer = OptionElements.Any(x => !x.Active)
                 ? string.Join(" , ", OptionElements.Where(x => !x.Active).Select(n => n.Name))
                 : Placeholder;
-
-            OptionElements = OptionElements.OrderByDescending(x => x.Active).ThenBy(x => x.Name).ToList();
-
+            
             await OptionElementChanged.InvokeAsync(OptionElements.Where(x => !x.Active).ToList());
             await EnabledButtonSearchChanged.InvokeAsync(true);
         }

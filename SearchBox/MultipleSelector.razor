@@ -9,7 +9,7 @@
         }
         <select @ref="MySelect" class="form-select" id="slt" @onchange="OnChangeCitiesSelected">
             <option value="0" style="display:none">@ListContainer</option>
-            @foreach (OptionElement optionElement in OptionElements)
+            @foreach (OptionElement optionElement in OptionElements.OrderByDescending(x => x.Active).ThenBy(x => x.Name))
             {
                 <option value="@optionElement.Value" class="@((optionElement.Active? "unselected" : "selected"))">
                     @optionElement.Name

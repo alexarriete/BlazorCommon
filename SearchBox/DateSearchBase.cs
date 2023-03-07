@@ -34,6 +34,8 @@ namespace BlazorCommon.SearchBox
             Max = DateTime.MinValue == Max || DateTime.MaxValue == Max ? DateTime.MaxValue : Max;
             MinDate = ConvertDate(Min);
             MaxDate = ConvertDate(Max);
+            if(Date== DateTime.MinValue) Date = Min;
+            Check = true;
         }
 
         private string ConvertDate(DateTime date)
@@ -47,24 +49,23 @@ namespace BlazorCommon.SearchBox
         {
             if (AuxDate == Date)
                 return; 
-            if (!Check)
+            
+            if(Check)
             {
-                Check = true;
-                return;
+                if (Date.Date < Min.Date)
+                {
+                    await SetToast(MessageType.error, $"{BlazorDic.ErrorDateMin} {MinDate}");
+                    return;
+                }
+                if (Date.Date > Max.Date)
+                {
+                    await SetToast(MessageType.error, $"{BlazorDic.ErrorDateMax} {MaxDate}");
+                    return;
+                }
+                await EnabledButtonSearchChanged.InvokeAsync(true);
+                await DateChanged.InvokeAsync(Date);
+                AuxDate = Date;
             }
-            if (Date.Date < Min.Date)
-            {
-                await SetToast(MessageType.error, $"{BlazorDic.ErrorDateMin} {MinDate}");
-                return;
-            }
-            if (Date.Date > Max.Date)
-            {
-                await SetToast(MessageType.error, $"{BlazorDic.ErrorDateMax} {MaxDate}");
-                return;
-            }
-            await EnabledButtonSearchChanged.InvokeAsync(true);
-            await DateChanged.InvokeAsync(Date);
-            AuxDate = Date;
         }
 
 
