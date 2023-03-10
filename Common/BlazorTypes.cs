@@ -29,4 +29,11 @@ namespace BlazorCommon
         Grid,
         Main
     }
+
+    public enum LinkCollectionType
+    {
+        Vertical,
+        Horizontal,
+        ButtonHorizontal
+    }
 }

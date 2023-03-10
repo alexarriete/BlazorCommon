@@ -1,0 +1,92 @@
+﻿@if (Items != null)
+{
+
+
+
+    if (LinkCollectionType == LinkCollectionType.Vertical)
+    {
+        <div class="row text-center">
+            @foreach (var item in Items)
+            {
+
+                @if (item.path.ToLower().Contains(FollowThis) || !item.path.ToLower().Contains("http"))
+                {
+                    <a @onclick="() => LinkClicked(item.path)" href="@item.path" target='@(item.isTargetBlank?"_blank":"_self" )'>@item.Name</a>
+                }
+                else
+                {
+                    <a @onclick="() => LinkClicked(item.path)" href="@item.path" target='@(item.isTargetBlank?"_blank":"_self" )' rel="nofollow noopener noreferrer">@item.Name</a>
+
+                }
+            }
+
+        </div>
+        <div style="margin-top:10%"></div>
+
+    }
+    else if (LinkCollectionType == LinkCollectionType.Horizontal)
+    {
+        <span style="display: inline;">
+            @foreach (var item in Items)
+            {
+                @if (item.path.ToLower().Contains(FollowThis) || !item.path.ToLower().Contains("http"))
+                {
+                    <a @onclick="() => LinkClicked(item.path)" href="@item.path" target='@(item.isTargetBlank?"_blank":"_self" )'>@item.Name</a>
+                }
+                else
+                {
+                    <a @onclick="() => LinkClicked(item.path)" href="@item.path" target='@(item.isTargetBlank?"_blank":"_self" )' rel="nofollow noopener noreferrer">@item.Name</a>
+
+                }
+                @if (Items.IndexOf(item) < Items.Count() - 1)
+                {
+                    <span style="margin-left: 1em;margin-right:1em ;color:lightgray">|</span>
+                }
+            }
+        </span>
+    }
+    else
+    {
+        <span style="display: inline;">
+            @foreach (var item in Items)
+            {
+                @if (item.path.ToLower().Contains(FollowThis) || !item.path.ToLower().Contains("http"))
+                {
+                    <a class="btn btn-outline-dark" @onclick="() => LinkClicked(item.path)" href="@item.path" target='@(item.isTargetBlank?"_blank":"_self" )'>@item.Name</a>
+                }
+                else
+                {
+                    <a class="btn btn-outline-dark" @onclick="() => LinkClicked(item.path)" href="@item.path" target='@(item.isTargetBlank?"_blank":"_self" )' rel="nofollow noopener noreferrer">@item.Name</a>
+
+                }
+                <span style="margin-left:1em;"></span>
+            }
+        </span>
+
+    }
+
+
+    foreach (var item in Items)
+    {
+
+
+    }
+
+}
+
+@code {
+    [Parameter] public List<BlazorCommon.LinkCollectionItem>? Items { get; set; }
+    [Parameter] public BlazorCommon.LinkCollectionType LinkCollectionType { get; set; }
+    [Parameter] public EventCallback<string> OnClick { get; set; }
+    [Parameter] public string? FollowThis { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        FollowThis ??= string.Empty;
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task LinkClicked(string link)
+    {
+        await OnClick.InvokeAsync(link);
+    }
+}
