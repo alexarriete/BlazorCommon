@@ -7,8 +7,8 @@
 		<Title>BlazorCommon</Title>
 		<Description>RCL with Blazor components</Description>
 		<PackageProjectUrl>https://blazorcommon.acernuda.com</PackageProjectUrl>
-		<PackageReleaseNotes>Adding LinkCollection component
- <BlazorCommon.Component.LinkCollection LinkCollectionType="LinkCollectionType.Horizontal" Items="@Items" FollowThis="acernuda.com" /></PackageReleaseNotes>
+		<PackageReleaseNotes>Adding LinkCollection MargingBetween
+ <BlazorCommon.Component.LinkCollection FollowThis="acernuda.com" LinkCollectionType="BlazorCommon.LinkCollectionType.Horizontal" Items="InsidePageItemIndex" /></PackageReleaseNotes>
 		
 		<AssemblyVersion>1.1.2</AssemblyVersion>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -18,7 +18,7 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<RepositoryUrl>https://github.com/alexarriete/BlazorCommon</RepositoryUrl>
 		<PackageReadmeFile>Readme.md</PackageReadmeFile>
-		<Version>1.2.0</Version>
+		<Version>1.2.1</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

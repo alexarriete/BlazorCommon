@@ -5,10 +5,10 @@
 
     if (LinkCollectionType == LinkCollectionType.Vertical)
     {
-        <div class="row text-center">
-            @foreach (var item in Items)
-            {
 
+        @foreach (var item in Items)
+        {
+            <div class="row text-center">
                 @if (item.path.ToLower().Contains(FollowThis) || !item.path.ToLower().Contains("http"))
                 {
                     <a @onclick="() => LinkClicked(item.path)" href="@item.path" target='@(item.isTargetBlank?"_blank":"_self" )'>@item.Name</a>
@@ -18,11 +18,9 @@
                     <a @onclick="() => LinkClicked(item.path)" href="@item.path" target='@(item.isTargetBlank?"_blank":"_self" )' rel="nofollow noopener noreferrer">@item.Name</a>
 
                 }
-            }
-
-        </div>
-        <div style="margin-top:10%"></div>
-
+                <div style="margin-top:@(MarginBetween)%"></div>
+            </div>
+        }
     }
     else if (LinkCollectionType == LinkCollectionType.Horizontal)
     {
@@ -40,7 +38,7 @@
                 }
                 @if (Items.IndexOf(item) < Items.Count() - 1)
                 {
-                    <span style="margin-left: 1em;margin-right:1em ;color:lightgray">|</span>
+                    <span style="margin-left: @(MarginBetween)%;margin-right:@(MarginBetween)% ;color:lightgray">|</span>
                 }
             }
         </span>
@@ -59,7 +57,8 @@
                     <a class="btn btn-outline-dark" @onclick="() => LinkClicked(item.path)" href="@item.path" target='@(item.isTargetBlank?"_blank":"_self" )' rel="nofollow noopener noreferrer">@item.Name</a>
 
                 }
-                <span style="margin-left:1em;"></span>
+                <span style="margin-left:@(MarginBetween)%;"></span>
+                
             }
         </span>
 
@@ -75,6 +74,7 @@
 }
 
 @code {
+    [Parameter] public int MarginBetween{ get; set; }
     [Parameter] public List<BlazorCommon.LinkCollectionItem>? Items { get; set; }
     [Parameter] public BlazorCommon.LinkCollectionType LinkCollectionType { get; set; }
     [Parameter] public EventCallback<string> OnClick { get; set; }
