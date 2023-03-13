@@ -169,6 +169,15 @@ namespace BlazorCommon {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The option cannot be used without a primary key in the row. Use the decorator [key].
+        /// </summary>
+        internal static string KeyError {
+            get {
+                return ResourceManager.GetString("KeyError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Less than.
         /// </summary>
         internal static string Lessthan {
@@ -192,6 +201,15 @@ namespace BlazorCommon {
         internal static string NumberInsert {
             get {
                 return ResourceManager.GetString("NumberInsert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The page does not exist..
+        /// </summary>
+        internal static string PageNoFound {
+            get {
+                return ResourceManager.GetString("PageNoFound", resourceCulture);
             }
         }
         

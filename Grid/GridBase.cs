@@ -4,20 +4,20 @@ using Microsoft.AspNetCore.Components;
 namespace BlazorCommon.Grid
 {
     public class GridBase : HtmlComponentBase
-    {      
+    {
         [Parameter] public GridConfigurationBase GridConfig { get; set; }
         [Parameter] public Theme Theme { get; set; }
-        protected string ErrorMessage { get; set; }        
+        protected string ErrorMessage { get; set; }
         public ModalGridSearch ModalGridSearch { get; set; }
         private bool Filtered { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            Theme = Theme == null ? new Theme(): Theme;           
+            Theme = Theme == null ? new Theme() : Theme;
             await base.OnInitializedAsync();
         }
 
-        
+
 
 
         protected void OnPageChanged(GridConfigurationBase gridConfiguration)
@@ -94,17 +94,31 @@ namespace BlazorCommon.Grid
                 foreach (var il in GridConfig.QueryResult.List)
                 {
                     il.RowExpanded = false;
-                }               
+                }
             }
             await item.OnRowClick(new JsHelper(jSRuntime));
 
         }
 
-        protected async Task GoToPage(ExpandedRowOption ero)
+        protected async Task GoToPage(ExpandedRowOption ero, RowBase rb)
         {
-            bool result = await GotoPageAsync($"{UrlHelper.Uri}/{ero}");
-            if (!result)
-                await SetToast(MessageType.error, "La página no existe");
+            string url = $"{UrlHelper.Uri}/{ero}";
+
+            if (ero == ExpandedRowOption.Create)
+            {                
+                await GotoPageAsync(url);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(GridConfig.KeyColumn))
+            {
+                await SetToast(MessageType.error, BlazorDic.KeyError);
+                return;
+            }
+
+            var value = rb.GetType().GetProperty(GridConfig.KeyColumn).GetValue(rb, null).ToString();
+            url = $"{url}/{value}";
+            await GotoPageAsync(url);
         }
 
     }

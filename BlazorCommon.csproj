@@ -7,7 +7,8 @@
 		<Title>BlazorCommon</Title>
 		<Description>RCL with Blazor components</Description>
 		<PackageProjectUrl>https://blazorcommon.acernuda.com</PackageProjectUrl>
-		<PackageReleaseNotes>bug QueryResult</PackageReleaseNotes>
+		<PackageReleaseNotes>ExpandedRowOption issue.
+Removing Validations;</PackageReleaseNotes>
 		
 		<AssemblyVersion>1.1.2</AssemblyVersion>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -17,7 +18,7 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<RepositoryUrl>https://github.com/alexarriete/BlazorCommon</RepositoryUrl>
 		<PackageReadmeFile>Readme.md</PackageReadmeFile>
-		<Version>1.2.3</Version>
+		<Version>1.2.5</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

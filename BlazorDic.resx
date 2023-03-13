@@ -163,4 +163,10 @@
   <data name="Select" xml:space="preserve">
     <value>Select</value>
   </data>
+  <data name="PageNoFound" xml:space="preserve">
+    <value>The page does not exist.</value>
+  </data>
+  <data name="KeyError" xml:space="preserve">
+    <value>The option cannot be used without a primary key in the row. Use the decorator [key]</value>
+  </data>
 </root>

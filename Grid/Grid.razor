@@ -71,7 +71,7 @@
                                     @foreach (ExpandedRowOption ero in item.ExpandedRowOptions)
                                     {          
                                         <div class="col">
-                                                <a @onclick="()=>GoToPage(ero)" class="btn btn-block form-control text-center theme" style="background-color:@Theme.HeaderColor">@ero.ToString()</a>
+                                                <a @onclick="()=>GoToPage(ero, item)" class="btn btn-block form-control text-center theme" style="background-color:@Theme.HeaderColor">@ero.ToString()</a>
                                             </div>
                                     }
                                     </div>

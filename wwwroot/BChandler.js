@@ -133,3 +133,18 @@ export function GetClasses(id) {
     return e.classList;
 }
 
+export function CopyClipboard(id) {    
+    var copyText = document.getElementById(id);    
+    copyText.select();    
+    document.execCommand("copy");   
+}
+
+
+export function CopyStringToClipboard(text) {
+    var p = document.createElement('textarea');
+    p.value = text;        
+    document.body.appendChild(p);
+    p.select();
+    document.execCommand("copy");
+    p.remove();
+}

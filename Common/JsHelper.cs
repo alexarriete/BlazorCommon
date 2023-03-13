@@ -299,5 +299,20 @@ namespace BlazorCommon
             }
         }
 
+        public async Task CopyToClipboard(string id)
+        {
+            await SetIJSObject();
+            if (jSObject != null)
+                await jSObject.InvokeVoidAsync("CopyClipboard", id);
+
+        }
+
+        public async Task CopyStringToClipboard(string text)
+        {
+            await SetIJSObject();
+            if (jSObject != null)
+                await jSObject.InvokeVoidAsync("CopyStringToClipboard", text);
+
+        }
     }
 }

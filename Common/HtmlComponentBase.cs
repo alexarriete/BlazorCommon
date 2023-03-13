@@ -8,7 +8,7 @@ using Microsoft.JSInterop;
 namespace BlazorCommon
 {
     public class HtmlComponentBase : LayoutComponentBase
-    {        
+    {
         [Inject] public IJSRuntime jSRuntime { get; set; }
         [Inject] public NavigationManager UrlHelper { get; set; }
         public ModalCommon ModalCommon { get; set; }
@@ -25,7 +25,7 @@ namespace BlazorCommon
 
         public virtual void ModalResultChanged(bool outResult)
         {
-            StateHasChanged();            
+            StateHasChanged();
         }
 
         protected override async Task OnInitializedAsync()
@@ -94,12 +94,9 @@ namespace BlazorCommon
         /// </summary>
         /// <param name="url">New page url.</param>
         /// <returns></returns>
-        public async Task<bool> GotoPageAsync(string url)
+        public async Task GotoPageAsync(string url)
         {
-            bool exists = Validator.RemoteFileExists(url);
-            if (exists)
-                await Task.Run(() => UrlHelper.NavigateTo(url, true));
-            return exists;
+            await Task.Run(() => UrlHelper.NavigateTo(url, true));
         }
 
         /// <summary>
@@ -108,12 +105,9 @@ namespace BlazorCommon
         /// <param name="jSRuntime"></param>
         /// <param name="url">New page url</param>
         /// <returns></returns>
-        public async Task<bool> GotoPageBlankAsync(IJSRuntime jSRuntime, string url)
+        public async Task GotoPageBlankAsync(IJSRuntime jSRuntime, string url)
         {
-            bool exists = Validator.RemoteFileExists(url);
-            if (exists)
-                await jSRuntime.InvokeVoidAsync("open", url, "_blank");
-            return exists;
+            await jSRuntime.InvokeVoidAsync("open", url, "_blank");
         }
         #endregion
 
@@ -124,6 +118,18 @@ namespace BlazorCommon
         public async Task<List<string>> GetClasses(string id) { JsHelper jsHelper = new(jSRuntime); return await jsHelper.GetClasses(id); }
 
         #endregion
+        /// <summary>
+        /// Copy text from an element (textarea, textbox) to clipboard
+        /// </summary>
+        /// <param name="id">Html id</param>
+        /// <returns></returns>
+        public async Task CopyToClipBoard(string id) { JsHelper jsHelper = new(jSRuntime); await jsHelper.CopyToClipboard(id); }
+        /// <summary>
+        /// Copy string to clipboard
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public async Task CopyStringToClipBoard(string text) { JsHelper jsHelper = new(jSRuntime); await jsHelper.CopyStringToClipboard(text); }
     }
 }
 
