@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace BlazorCommon.Grid.GridClasses
 {
+    /// <summary>
+    /// Contains the properties required to obtain the rows. Overwrite this class and the GetList() method to get the desired row list.
+    /// The object that conforms to the row must be instances of a class that inherits from RowBase.
+    /// More info: https://blazorcommon.acernuda.com
+    /// </summary>
     public class QueryResultBase
     {
         public int NotFilteredTotal { get; set; }

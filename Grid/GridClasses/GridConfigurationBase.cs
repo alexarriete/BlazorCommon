@@ -19,51 +19,44 @@ namespace BlazorCommon.Grid
         public List<GridColumnBase> GridColumnBases { get; set; }
         public List<RowBase> ItemListUploaded { get; set; }
         public Type ItemType { get; set; }
-        public string GridTitle { get; set; }
+        public string Title { get; set; }
         public string KeyColumn { get; set; }
         public string ExcelFileName { get; set; }
 
 
-        private GridConfigurationBase() { QueryResult = new QueryResultBase(); }
+        public GridConfigurationBase(QueryResultBase queryResultBase = null) 
+        { 
+            QueryResult = queryResultBase == null ? new QueryResultBase(): queryResultBase;
+            QueryResult.GetSortedPage(this);
+            ItemType = QueryResult.List.FirstOrDefault().GetType();
+           
+            SetGridTitle();
+            SetKeyColumn();
+            SetGridColumnBase();
 
-        public static GridConfigurationBase GetInstance()
-        {
-            GridConfigurationBase GridConfig = new GridConfigurationBase();
-            GridConfig.QueryResult.GetSortedPage(GridConfig);
-            GridConfig.ItemType = GridConfig.QueryResult.List.FirstOrDefault().GetType();
-            GridConfig.GridTitle = GridConfig.SetGridTitle();
-
-            GridConfig.KeyColumn = GridConfig.ItemType.GetProperties()
-               .FirstOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), inherit: false).Any())?.Name;
-
-            GridConfig.GridColumnBases = GridConfig.GetGridColumnBase();
-            GridConfig.ExcelFileName = GridConfig.SetExcelFileName();
-
-            return GridConfig;
+            SetExcelFileName();
         }
 
-       
-
-        public static async Task<GridConfigurationBase> GetInstanceAsync()
+        private void SetKeyColumn()
         {
-            return await Task.Run(() => GetInstance());
+            KeyColumn = ItemType.GetProperties().FirstOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), inherit: false).Any())?.Name;
         }
 
-        public virtual string SetGridTitle()
+        public virtual void SetGridTitle()
         {
-            return $"{ItemType.Name} list";
+            Title = $"{ItemType.Name} list";
         }
 
-        public virtual string SetExcelFileName()
+        public virtual void SetExcelFileName()
         {
-            return $"{ItemType.Name}{DateTime.Now.Date.ToShortDateString().Replace("/", "-")}.xlsx";
+            ExcelFileName = $"{ItemType.Name}{DateTime.Now.Date.ToShortDateString().Replace("/", "-")}.xlsx";
         }
 
-        public virtual List<GridColumnBase> GetGridColumnBase()
+        public virtual void SetGridColumnBase()
         {
             List<PropertyInfo> baseProperties = new RowBase().GetType().GetProperties().ToList();
             List<PropertyInfo> props = ItemType.GetProperties().Where(x => !baseProperties.Any(s => s.Name == x.Name)).ToList();
-            return props.Select(x => new GridColumnBase(x, props.IndexOf(x), KeyColumn)).ToList();
+            GridColumnBases = props.Select(x => new GridColumnBase(x, props.IndexOf(x), KeyColumn)).ToList();
         }
         
 

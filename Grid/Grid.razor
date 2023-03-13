@@ -8,8 +8,8 @@
     <div>
         <div class="row">
             <div class="col-8">
-                <h3 style="display:@(!string.IsNullOrWhiteSpace(GridConfig.GridTitle) ?"block": "none")">
-                    @GridConfig.GridTitle
+                <h3 style="display:@(!string.IsNullOrWhiteSpace(GridConfig.Title) ?"block": "none")">
+                    @GridConfig.Title
                     <span style="font-size:12px">
                         @GridConfig?.QueryResult?.Total items
                     </span>
@@ -96,7 +96,7 @@
 }
 else
 {
-    <p class="text-danger">We can't display the grid. You must implement GridConfiguration. <span class="text-info">"GridConfig="@(GridConfigurationBase.GetInstance())"</span></p>
+    <p class="text-danger">We can't display the grid. You must implement GridConfiguration. <span class="text-info">"GridConfig=new GridConfigurationBase()</span></p>
 }
 
 <ModalGridSearch @ref="ModalGridSearch" GridSearchChanged="AddSearch"/>

@@ -41,7 +41,7 @@ namespace BlazorCommon
                 CssId = "id3",
                 ButtonName = "A Grid",
                 Type = TabType.Grid,
-                GridConfig = GridConfigurationBase.GetInstance()
+                GridConfig = new GridConfigurationBase()
               
             });
 
