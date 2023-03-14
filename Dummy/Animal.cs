@@ -29,6 +29,8 @@ namespace BlazorCommon
         public int ANumber { get; set; }
         [Column(TypeName = "imageRag")]
         public string Rag { get; set; }
+        [Column(TypeName = "linkHidden")]
+        public string Link { get; set; }
         public Animal() { }
 
 
@@ -62,6 +64,8 @@ namespace BlazorCommon
                     item.Rag = BcTraficLight.UrlAmber;
                 else
                     item.Rag = BcTraficLight.UrlGreen;
+
+                item.Link = "https://acernuda.com";
             }
             return list;
         }

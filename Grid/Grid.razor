@@ -49,17 +49,23 @@
                 <tbody>
                     @foreach (var item in GridConfig.QueryResult.List)
                     {
-                        <tr id="@item.RowBaseId" @onclick="() => OnRowClick(item)">
+                        <tr id="@item.RowBaseId">
                             @foreach (GridColumnBase gridColumn in GridConfig.GridColumnBases.Where(x => !x.KeyColumn).OrderBy(x => x.Position))
                             {
                                 if (gridColumn.PropertyType == PropertyType.image || gridColumn.PropertyType == PropertyType.imageRag)
                                 {
                                     var value = $"<img src='{gridColumn.PropertyInfo.GetValue(item)}' style='max-width:30px'/>";
+                                    <td @onclick="() => OnRowClick(item)">@((MarkupString)value)</td>
+                                }
+                                else if (gridColumn.PropertyType == PropertyType.link || gridColumn.PropertyType == PropertyType.linkHidden)
+                                {
+                                    var text = gridColumn.PropertyType == PropertyType.link ? gridColumn.PropertyInfo.GetValue(item) : "link";
+                                    var value = $"<a href='{gridColumn.PropertyInfo.GetValue(item)}' Target='_blank''/>{text}</a>";
                                     <td>@((MarkupString)value)</td>
                                 }
                                 else
                                 {
-                                    <td class="tdColor">@gridColumn.PropertyInfo.GetValue(item)</td>
+                                    <td class="tdColor" @onclick="() => OnRowClick(item)">@gridColumn.PropertyInfo.GetValue(item)</td>
                                 }
                             }
                         </tr>

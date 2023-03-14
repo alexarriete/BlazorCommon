@@ -17,7 +17,9 @@ namespace BlazorCommon.Grid
         list,
         boolean,
         image,
-        imageRag
+        imageRag,
+        link,
+        linkHidden
     }
 
     public enum NumberSelectionType
