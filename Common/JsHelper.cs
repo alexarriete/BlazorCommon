@@ -314,5 +314,23 @@ namespace BlazorCommon
                 await jSObject.InvokeVoidAsync("CopyStringToClipboard", text);
 
         }
+
+        public async Task<string> Download(byte[] bytes, string fileName)
+        {
+            try
+            {
+                Stream stream = new MemoryStream(bytes);
+                using var streamRef = new DotNetStreamReference(stream: stream);
+                await SetIJSObject();
+                if (jSObject != null)
+                    await jSObject.InvokeVoidAsync("DownloadFileFromStream", fileName, streamRef);
+
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
     }
 }

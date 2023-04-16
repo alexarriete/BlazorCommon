@@ -8,9 +8,9 @@
 		<Description>RCL with Blazor components</Description>
 		<PackageProjectUrl>https://blazorcommon.acernuda.com</PackageProjectUrl>
 		<PackageReleaseNotes>Adding 
- [Column(TypeName = "linkHidden")]
- [Column(TypeName = "link")]
-Decorators allow to activate links as column values.</PackageReleaseNotes>
+Download(byte[] bytes, string fleName) to HtmlComponentBase
+
+</PackageReleaseNotes>
 		
 		<AssemblyVersion>1.1.2</AssemblyVersion>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -20,7 +20,7 @@ Decorators allow to activate links as column values.</PackageReleaseNotes>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<RepositoryUrl>https://github.com/alexarriete/BlazorCommon</RepositoryUrl>
 		<PackageReadmeFile>Readme.md</PackageReadmeFile>
-		<Version>1.2.6</Version>
+		<Version>1.2.7</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -130,6 +130,14 @@ namespace BlazorCommon
         /// <param name="text"></param>
         /// <returns></returns>
         public async Task CopyStringToClipBoard(string text) { JsHelper jsHelper = new(jSRuntime); await jsHelper.CopyStringToClipboard(text); }
+
+        /// <summary>
+        /// Download any file converted to MemoryStream.
+        /// </summary>
+        /// <param name="bytes">byte array</param>
+        /// <param name="fileName">FileName</param>
+        /// <returns></returns>
+        public async Task DownloadFromStream(byte[] bytes, string fileName) { JsHelper jsHelper = new(jSRuntime); await jsHelper.Download(bytes, fileName); }
     }
 }
 
