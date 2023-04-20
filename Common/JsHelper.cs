@@ -315,22 +315,22 @@ namespace BlazorCommon
 
         }
 
-        public async Task<string> Download(byte[] bytes, string fileName)
+        public async Task Download(byte[] bytes, string fileName)
         {
-            try
-            {
-                Stream stream = new MemoryStream(bytes);
-                using var streamRef = new DotNetStreamReference(stream: stream);
-                await SetIJSObject();
-                if (jSObject != null)
-                    await jSObject.InvokeVoidAsync("DownloadFileFromStream", fileName, streamRef);
+            Stream stream = new MemoryStream(bytes);
+            using var streamRef = new DotNetStreamReference(stream: stream);
+            await SetIJSObject();
+            if (jSObject != null)
+                await jSObject.InvokeVoidAsync("DownloadFileFromStream", fileName, streamRef);
+        }
 
-                return "";
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
+        public async Task<bool> IsDevice()
+        {
+            await SetIJSObject();
+            if (jSObject != null)
+              return  await jSObject.InvokeAsync<bool>("IsDevice");
+
+            return false;
         }
     }
 }

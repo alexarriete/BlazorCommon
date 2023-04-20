@@ -7,10 +7,9 @@
 		<Title>BlazorCommon</Title>
 		<Description>RCL with Blazor components</Description>
 		<PackageProjectUrl>https://blazorcommon.acernuda.com</PackageProjectUrl>
-		<PackageReleaseNotes>Adding 
-Download(byte[] bytes, string fleName) to HtmlComponentBase
-
-</PackageReleaseNotes>
+		<PackageReleaseNotes>Added on HtmlComponentBase
+bool isdevice = await IsDevice();
+Detects whether a page is loaded in mobile or on desktop</PackageReleaseNotes>
 		
 		<AssemblyVersion>1.1.2</AssemblyVersion>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -20,7 +19,7 @@ Download(byte[] bytes, string fleName) to HtmlComponentBase
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<RepositoryUrl>https://github.com/alexarriete/BlazorCommon</RepositoryUrl>
 		<PackageReadmeFile>Readme.md</PackageReadmeFile>
-		<Version>1.2.7</Version>
+		<Version>1.3.0</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

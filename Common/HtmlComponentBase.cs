@@ -138,6 +138,11 @@ namespace BlazorCommon
         /// <param name="fileName">FileName</param>
         /// <returns></returns>
         public async Task DownloadFromStream(byte[] bytes, string fileName) { JsHelper jsHelper = new(jSRuntime); await jsHelper.Download(bytes, fileName); }
+        /// <summary>
+        /// Detects whether a page is loaded in mobile or on desktop
+        /// </summary>
+        /// <returns>Mobile = true</returns>
+        public async Task<bool> IsDevice() { JsHelper jsHelper = new(jSRuntime); return await jsHelper.IsDevice(); }
     }
 }
 

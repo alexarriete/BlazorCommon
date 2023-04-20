@@ -67,5 +67,7 @@ namespace BlazorCommon.Grid
             }
             return gridSearch.SearchText;
         }
+
+
     }
 }
